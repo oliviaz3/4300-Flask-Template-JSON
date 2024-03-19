@@ -1,366 +1,207 @@
 {
-  "episodes": [
+  "authors": [
     {
-      "id": 1,
-      "title": "I'm Watching You",
-      "descr": "Bruce and Kris Jenner celebrate their anniversary. Kim and Tommy Davis buy themselves a stripper pole as a gift, and the youngest Jenner plays on it. Kim appears on The Tyra Banks Show Where she is interviewed about Kim's sex tape. Kourtney deals with relationship drama."
+      "average_rating": "3.98",
+      "author_id": "604031",
+      "text_reviews_count": "7",
+      "name": "Ronald J. Fields",
+      "ratings_count": "49"
     },
     {
-      "id": 2,
-      "title": "Managing Mom",
-      "descr": "Kim and Kris, her manager, argue over the management of Kim's appearances and schedule. Meanwhile, Kris hires a nanny, Bree, who is not as appropriate and nanny-decent as she hoped."
+      "average_rating": "4.08",
+      "author_id": "626222",
+      "text_reviews_count": "28716",
+      "name": "Anita Diamant",
+      "ratings_count": "546796"
     },
     {
-      "id": 3,
-      "title": "Brody in the House",
-      "descr": "Kourtney, Kim and Khloé go to Mexico for a Girls Gone Wild photo shoot without telling Bruce, afraid that he would disapprove. When he finds out, he leaves his son Brody Jenner to look after Kylie and Kendall while he heads to Mexico to confront them. Unfortunately, leaving Brody with his daughters creates even more chaos."
+      "average_rating": "3.92",
+      "author_id": "10333",
+      "text_reviews_count": "5075",
+      "name": "Barbara Hambly",
+      "ratings_count": "122118"
     },
     {
-      "id": 4,
-      "title": "Birthday Suit",
-      "descr": "Playboy magazine contacts Kris, asking her to tell Kim that they want her to be on the cover of their December 2007 issue. Kim is hesitant at first, but Kris encourages her. To show Kris what a difficult decision it is, Kim proposing trading places and plays Kris' manager and setting her mom up for a semi-nude shoot. Kim gets the skimpiest outfit she can. Kris's best picture is her topless, in an American flag towel/blanket. Kris enjoys the shoot, surprising Kim."
+      "average_rating": "3.68",
+      "author_id": "9212",
+      "text_reviews_count": "36262",
+      "name": "Jennifer Weiner",
+      "ratings_count": "888522"
     },
     {
-      "id": 5,
-      "title": "Remembering Dad",
-      "descr": "The family remembers Robert Kardashian on his death anniversary. Khloé, not dealing well with the anniversary, gets drunk and ends up arrested for a DUI."
+      "average_rating": "3.82",
+      "author_id": "149918",
+      "text_reviews_count": "96",
+      "name": "Nigel Pennick",
+      "ratings_count": "1740"
     },
     {
-      "id": 6,
-      "title": "You Are So Pregnant Dude",
-      "descr": "Kourtney, Kim and Khloé are about to leave for Las Vegas when Kourtney has a pregnancy scare. Meanwhile, Kendall and Kylie ask their dad for a puppy, which causes a disagreement between their parents."
+      "average_rating": "3.89",
+      "author_id": "3041852",
+      "text_reviews_count": "85",
+      "name": "Alfred J. Church",
+      "ratings_count": "947"
     },
     {
-      "id": 7,
-      "title": "Helping Hand",
-      "descr": "Rob gets set up on a date but catches his sisters spying on him. Khloé and Kourtney find out that a homeless man, Shorty, is living behind their store D-A-S-H, and clean up his appearance."
+      "average_rating": "4.17",
+      "author_id": "215594",
+      "text_reviews_count": "6",
+      "name": "Michael Halberstam",
+      "ratings_count": "23"
     },
     {
-      "id": 8,
-      "title": "The Price of Fame",
-      "descr": "Scandalous photos of Kourtney surface, scaring and humiliating Kim, who already feels like she really messed up with her sex tape."
+      "average_rating": "4.18",
+      "author_id": "19158",
+      "text_reviews_count": "486",
+      "name": "Rachel Roberts",
+      "ratings_count": "13677"
     },
     {
-      "id": 9,
-      "title": "Kim becomes a Diva",
-      "descr": "The family think that Kim is slowly becoming a diva. Kourtney finds shocking texts in Scott's Blackberry."
+      "average_rating": "3.99",
+      "author_id": "5807700",
+      "text_reviews_count": "986",
+      "name": "V.L. Locey",
+      "ratings_count": "3130"
     },
     {
-      "id": 10,
-      "title": "Rob's New Girlfriend",
-      "descr": "Rob falls in love with pop star Adrienne Bailon, a Cheetah Girl, but is left depressed when she leaves for India for three months to shoot a film. After consulting a nutritionist, Kris decides to build a chicken coop so the family will have healthier eggs from chickens they raise themselves."
+      "average_rating": "3.48",
+      "author_id": "2983296",
+      "text_reviews_count": "824",
+      "name": "Anton Szandor LaVey",
+      "ratings_count": "12628"
     },
     {
-      "id": 11,
-      "title": "Khloé Wants to Act",
-      "descr": "Despite Kim's disapproval, Khloé decides to pursue an acting career. Meanwhile, Bruce receives a fashion makeover."
+      "average_rating": "3.76",
+      "author_id": "40075",
+      "text_reviews_count": "396",
+      "name": "Kenneth Anger",
+      "ratings_count": "5255"
     },
     {
-      "id": 12,
-      "title": "Kris the Cheerleader",
-      "descr": "Members of the Old School Crew contact Kris: they want her to be a cheerleader. Kris is worried about auditioning, especially after a knee injury. Meanwhile, Khloé has a woman-to-woman talk with Kendall, with help from Kim, Kourtney, and Kylie."
+      "average_rating": "3.86",
+      "author_id": "37778",
+      "text_reviews_count": "616",
+      "name": "Bernard Knight",
+      "ratings_count": "7836"
     },
     {
-      "id": 13,
-      "title": "Khloé's Blind Dates",
-      "descr": "Kim and Kourtney, worried about Khloé being single, start an online-dating profile for her. Khloé gets angry but goes along with the speed dates. Meanwhile, Bruce teaches Kendall about doing chores and earning her own money but Kendall hires a handyman and takes the money and the credit for his work."
+      "average_rating": "3.95",
+      "author_id": "242185",
+      "text_reviews_count": "2906",
+      "name": "Carolyn Haines",
+      "ratings_count": "42549"
     },
     {
-      "id": 14,
-      "title": "Learning Self-Defense",
-      "descr": "After D-A-S-H is vandalized, Kourtney, Kim and Khloé take self-defense classes. Rob considers dropping out of USC to pursue professional modeling."
+      "average_rating": "4.00",
+      "author_id": "27397",
+      "text_reviews_count": "4231",
+      "name": "Benjamin Hoff",
+      "ratings_count": "104975"
     },
     {
-      "id": 15,
-      "title": "Kardashian Civil War",
-      "descr": "Kim battles against Kourtney and Khloé after she purchases a Bentley. Kris gets drunk with a friend and gets a tattoo. Bruce experiences a mid-life crisis."
+      "average_rating": "3.54",
+      "author_id": "35259",
+      "text_reviews_count": "81",
+      "name": "Christopher Ross",
+      "ratings_count": "420"
     },
     {
-      "id": 16,
-      "title": "Kardashian Family Vacation",
-      "descr": "Bruce thinks a family ski-trip to Colorado will ease some of the family chaos, but first it intensifies his midlife crisis as he spends time with guys who are Rob's age. Meanwhile, the family gangs up on Kim, claiming she's not joining in the family quality time. Kim, feeling hurt, leaves Colorado, but an apology message from Khloé persuades her to return. The clan enjoys the rest of their vacation together."
+      "average_rating": "3.84",
+      "author_id": "3083854",
+      "text_reviews_count": "9732",
+      "name": "Tom Wolfe",
+      "ratings_count": "210744"
     },
     {
-      "id": 17,
-      "title": "Kim's Calendar for Reggie",
-      "descr": "Kim shoots a sexy calendar for Reggie, but Kris distributes it for public sale. Kim gets back at her mom by selling the nude poster from Season 1. Bruce hopes to inspire Kourtney and Khloé, and earn their respect, by taking them to one of his motivational speeches."
+      "average_rating": "3.92",
+      "author_id": "39054",
+      "text_reviews_count": "3251",
+      "name": "Don Piper",
+      "ratings_count": "71959"
     },
     {
-      "id": 18,
-      "title": "New Perspective in New Orleans",
-      "descr": "When the girls visit New Orleans for a charity pool tournament organized by Reggie, they meet a family devastated by Hurricane Katrina. Meanwhile, Kris' cousin CiCi crashes Bruce's plans for a romantic weekend."
+      "average_rating": "3.96",
+      "author_id": "11099",
+      "text_reviews_count": "5313",
+      "name": "Cecil Murphey",
+      "ratings_count": "86128"
     },
     {
-      "id": 19,
-      "title": "Free Khloé",
-      "descr": "Kris is furious at Khloé when she goes to jail for violating her probation. Kris believes her meltdown might have something to do with the upcoming anniversary of Robert Kardashian's death. Khloé is sentenced 30 days in jail. Kris talks to her mom about her feelings and visits her late ex-husband's grave."
+      "average_rating": "4.29",
+      "author_id": "4862",
+      "text_reviews_count": "3992",
+      "name": "Randy Alcorn",
+      "ratings_count": "56585"
     },
     {
-      "id": 20,
-      "title": "Kourt's First Cover",
-      "descr": "Kourtney hires Kris as her manager after 944 Magazine asks her to do a cover shoot. However, Kris does not do well managing both Kourtney and Kim, who must go to Comic-Con and promote her new film, Disaster Movie. Rob and Adrienne encounter problems when they move in together."
+      "average_rating": "3.99",
+      "author_id": "137561",
+      "text_reviews_count": "12146",
+      "name": "Jennifer L. Holm",
+      "ratings_count": "128152"
     },
     {
-      "id": 21,
-      "title": "I'd Rather Go Naked... Or Shopping",
-      "descr": "Khloé faces pressure about her weight when she decides to do PETA's 'I'd Rather Go Naked Than Wear Fur' campaign. Kris and Kourtney confront Kim about her shopping addiction."
+      "average_rating": "4.06",
+      "author_id": "5411",
+      "text_reviews_count": "8642",
+      "name": "Cynthia Rylant",
+      "ratings_count": "96780"
     },
     {
-      "id": 22,
-      "title": "Pussycat Vision",
-      "descr": "Kim gets LASIK eye surgery after struggling to see herself in a mirror at a dance rehearsal with Pussycat Dolls creator Robin Antin. Bruce is anxious to talk to Kendall and Kylie about his colonoscopy. Kim performs with the Pussycat Dolls on the Las Vegas Strip."
+      "average_rating": "3.84",
+      "author_id": "4092328",
+      "text_reviews_count": "97",
+      "name": "Margot Hovley",
+      "ratings_count": "318"
     },
     {
-      "id": 23,
-      "title": "All for One and One for Kim",
-      "descr": "Kim's perfume line causes friction with Kris, Khloé, and Kourtney. Kris, not feeling so connected to Bruce anymore, searches for a common interest with him."
+      "average_rating": "4.14",
+      "author_id": "75424",
+      "text_reviews_count": "7",
+      "name": "Wayne Kinsey",
+      "ratings_count": "71"
     },
     {
-      "id": 24,
-      "title": "Cinderella Story",
-      "descr": "Khloé gets a DNA test to see if Kris is her real mother, which upsets Kris. After Rob borrows Kim's car and gets a new tattoo, his unusual behavior causes concern among the family."
+      "average_rating": "3.66",
+      "author_id": "1357577",
+      "text_reviews_count": "1889",
+      "name": "Francoise Sagan",
+      "ratings_count": "28688"
     },
     {
-      "id": 25,
-      "title": "The Two Year Itch",
-      "descr": "Kourtney and Scott get in another argument after she accuses him of cheating again. Meanwhile, Khloé secretly gets a biopsy for skin cancer, which scares Kris and Kourtney after she finds out."
+      "average_rating": "4.01",
+      "author_id": "3389",
+      "text_reviews_count": "367487",
+      "name": "Stephen King",
+      "ratings_count": "10666719"
     },
     {
-      "id": 26,
-      "title": "Distance Makes the Heart Grow Fonder",
-      "descr": "Khloé goes to New York to host a fashion show and becomes interested in moving there to open a second D-A-S-H store. Kim's focus on her career forces her to choose between it and Reggie."
+      "average_rating": "4.10",
+      "author_id": "105602",
+      "text_reviews_count": "1916",
+      "name": "Edward Herrmann",
+      "ratings_count": "7201"
     },
     {
-      "id": 27,
-      "title": "Leaving the Nest",
-      "descr": "Khloé looks for apartments in New York, which upsets Kris, who does not want her to leave L.A. Kourtney and Kim get Kris a chimpanzee after she expresses a desire to have another baby."
+      "average_rating": "4.14",
+      "author_id": "31308",
+      "text_reviews_count": "127",
+      "name": "Peter Maass",
+      "ratings_count": "1194"
     },
     {
-      "id": 28,
-      "title": "Meet the Kardashians",
-      "descr": "The family goes on a camping trip to meet Adrienne's family. Meanwhile, Bruce undergoes plastic surgery to fix the mistakes that were made during his treatments in earlier years to fix injuries that occurred during his sporting career."
+      "average_rating": "3.89",
+      "author_id": "50873",
+      "text_reviews_count": "30755",
+      "name": "L.J. Smith",
+      "ratings_count": "919399"
     },
     {
-      "id": 29,
-      "title": "What's Yours is Mine",
-      "descr": "Kourtney borrows Kim's personal belongings without her permission. Bruce struggles with Kylie wearing 'grownup' clothes and too much makeup for her age. Rob breaks up with Adrienne and moves in with Kim."
-    },
-    {
-      "id": 30,
-      "title": "Double Trouble",
-      "descr": "Khloé's new boyfriend Rashad McCants cheats on her. Kourtney catches Scott with another girl and starts to think that Scott may not be the best guy for her."
-    },
-    {
-      "id": 31,
-      "title": "The Wedding",
-      "descr": "Khloé and Lamar Odom get married. Rob attempts to rekindle his relationship with his ex-girlfriend Adrienne Bailon. Tension explodes between Bruce and Khloé that leads to a heated confrontation. Kim realizes she misses her boyfriend Reggie Bush, and Kourtney and Scott try to improve their relationship."
-    },
-    {
-      "id": 32,
-      "title": "Scott on the Rocks",
-      "descr": "Kourtney and Scott find themselves pitted against her family, especially Khloé, because they disapprove of him."
-    },
-    {
-      "id": 33,
-      "title": "Hot Cup of Love",
-      "descr": "When Khloé slaps Scott, Kourtney will not talk to her until she takes an anger-management class. A friend gives Kris a male-enhancement drug and she tries it on Bruce by slipping it into his coffee but Rob accidentally gets that coffee cup and lands in the hospital because of what follows."
-    },
-    {
-      "id": 34,
-      "title": "Baby Blues",
-      "descr": "Khloé gets excited when she thinks she's pregnant, but it turns out that she is not. When Kim lies to everyone to get out of doing things, Kris and Bruce get upset, but she may learn a lesson when she lies to Kendall and Kylie."
-    },
-    {
-      "id": 35,
-      "title": "Shape Up or Ship Out",
-      "descr": "Scott fails to take Kourtney's pregnancy seriously, so she threatens to end their relationship. Kris upsets Bruce by not letting him buy a helicopter toy or make any financial decisions. Khloé pays Bruce to do jobs for her. Kris buys a $4000 dress for 1 event and Kim, Khloé, and Bruce play 'scavenger hunt' by hiding the dress until Kris gives Bruce his ATM card to buy the helicopter toy. Rob tries to rekindle his relationship with Adrienne after seeing her at Khloé's wedding, seeming to stalk her by calling her 24/7. When he plans to visit her in New York, he receives an e-mail from her new boyfriend that informs him that it's over between them. He's heartbroken but decides to try to move on."
-    },
-    {
-      "id": 36,
-      "title": "Must Love Dogs",
-      "descr": "Dog-non-lover Kim finds herself taking in, and loving, a stray Chihuahua until she must give up 'Princess' because of medical problems. Bruce pressures Rob to move out of the house, and he gets a job developing his own skin-care line with Kourtney's help."
-    },
-    {
-      "id": 37,
-      "title": "Body Blows",
-      "descr": "Bruce goes to a charity event for the Boys & Girls Clubs of America. Kourtney, Kim, and Khloé were set to attend, but to his disappointment, they do not show. He decides to hold a charity boxing event for the American Heart Association and the people they fight turn out to be harmful for them. When Kourtney babysits for a friend, she realizes she is not prepared to have her own baby."
-    },
-    {
-      "id": 38,
-      "title": "Weekend From Hell",
-      "descr": "Kourtney, Kim, and Khloé take a weekend trip to Santa Barbara, California to have one final trip before the baby arrives, but Kim and Khloé leave Kourtney out of everything and get drunk, upsetting Kourtney, who must abstain from alcohol. Meanwhile, Kendall signs a modeling contract and Kylie gets jealous."
-    },
-    {
-      "id": 39,
-      "title": "I Want Your Sex",
-      "descr": "Khloé makes a 'love tape' for husband Lamar Odom while he's on the road. Scott and Rob saw the tape with Lamar which embarrassed Khloé. Kourtney misses intimacy with Scott, but is afraid to have sex because she does not want to hurt the baby. She later takes a Sex During Pregnancy class with Scott"
-    },
-    {
-      "id": 40,
-      "title": "Blame It on The Alcohol",
-      "descr": "During the one-hour special, the family travels to Las Vegas to celebrate Kim's birthday and attend an important business meeting. Kim bothered her mother for not caring about her birthday, while Scott gets violently drunk. He subsequently gets into a scuffle with his buddy, Rob Kardashian, who is also drunk. Their unruly behavior sets the tone for the remainder of the night. After Kris is able to break up the fight, she and Kourtney think that they are able to subdue Scott and leave him in the hotel room to sober up. To everyone's surprise, Scott shows up to the dinner where his boss is present. After using foul language, embarrassing himself and making everyone in attendance uncomfortable, Scott gets in an argument with the waiter and shoves a $100 bill in his mouth. The drama continues to unfold as Kourtney ends her relationship with Scott because of his unforgivable actions."
-    }
-  ],
-  "reviews": [
-    {
-      "id": 1,
-      "imdb_rating": 7.2
-    },
-    {
-      "id": 2,
-      "imdb_rating": 6.8
-    },
-    {
-      "id": 3,
-      "imdb_rating": 7.0
-    },
-    {
-      "id": 4,
-      "imdb_rating": 7.5
-    },
-    {
-      "id": 5,
-      "imdb_rating": 7.1
-    },
-    {
-      "id": 6,
-      "imdb_rating": 7.3
-    },
-    {
-      "id": 7,
-      "imdb_rating": 7.0
-    },
-    {
-      "id": 8,
-      "imdb_rating": 7.4
-    },
-    {
-      "id": 9,
-      "imdb_rating": 6.9
-    },
-    {
-      "id": 10,
-      "imdb_rating": 7.2
-    },
-    {
-      "id": 11,
-      "imdb_rating": 7.1
-    },
-    {
-      "id": 12,
-      "imdb_rating": 7.3
-    },
-    {
-      "id": 13,
-      "imdb_rating": 6.8
-    },
-    {
-      "id": 14,
-      "imdb_rating": 7.0
-    },
-    {
-      "id": 15,
-      "imdb_rating": 7.4
-    },
-    {
-      "id": 16,
-      "imdb_rating": 7.2
-    },
-    {
-      "id": 17,
-      "imdb_rating": 7.1
-    },
-    {
-      "id": 18,
-      "imdb_rating": 7.3
-    },
-    {
-      "id": 19,
-      "imdb_rating": 7.5
-    },
-    {
-      "id": 20,
-      "imdb_rating": 7.0
-    },
-    {
-      "id": 21,
-      "imdb_rating": 7.2
-    },
-    {
-      "id": 22,
-      "imdb_rating": 7.4
-    },
-    {
-      "id": 23,
-      "imdb_rating": 7.1
-    },
-    {
-      "id": 24,
-      "imdb_rating": 7.3
-    },
-    {
-      "id": 25,
-      "imdb_rating": 6.9
-    },
-    {
-      "id": 26,
-      "imdb_rating": 7.2
-    },
-    {
-      "id": 27,
-      "imdb_rating": 7.0
-    },
-    {
-      "id": 28,
-      "imdb_rating": 7.3
-    },
-    {
-      "id": 29,
-      "imdb_rating": 7.1
-    },
-    {
-      "id": 30,
-      "imdb_rating": 7.4
-    },
-    {
-      "id": 31,
-      "imdb_rating": 7.2
-    },
-    {
-      "id": 32,
-      "imdb_rating": 7.0
-    },
-    {
-      "id": 33,
-      "imdb_rating": 7.5
-    },
-    {
-      "id": 34,
-      "imdb_rating": 7.1
-    },
-    {
-      "id": 35,
-      "imdb_rating": 7.3
-    },
-    {
-      "id": 36,
-      "imdb_rating": 7.2
-    },
-    {
-      "id": 37,
-      "imdb_rating": 7.0
-    },
-    {
-      "id": 38,
-      "imdb_rating": 7.4
-    },
-    {
-      "id": 39,
-      "imdb_rating": 7.2
-    },
-    {
-      "id": 40,
-      "imdb_rating": 7.1
+      "average_rating": "3.82",
+      "author_id": "232533",
+      "text_reviews_count": "58",
+      "name": "Anne Emmert",
+      "ratings_count": "436"
     }
   ]
 }
