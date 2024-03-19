@@ -24,11 +24,11 @@
 
     <script>
 
-        function answerBoxTemplate(name, author_id, author_rating) {
+        function answerBoxTemplate(name, author_id, average_rating) {
             return `<div class=''>
                 <h3 class='episode-title'>${name}</h3>
                 <p class='episode-desc'>ID:${author_id}</p>
-                <p class='episode-rating'>Author Rating: ${author_rating}</p>
+                <p class='episode-rating'>Author Rating: ${average_rating}</p>
             </div>`
         }
 
@@ -44,7 +44,7 @@
                 .then((data) => data.forEach(row => {
 
                     let tempDiv = document.createElement("div")
-                    tempDiv.innerHTML = answerBoxTemplate(row.name, row.author_id, row.author_rating)
+                    tempDiv.innerHTML = answerBoxTemplate(row.name, row.author_id, row.average_rating)
                     document.getElementById("answer-box").appendChild(tempDiv)
                 }));
 
