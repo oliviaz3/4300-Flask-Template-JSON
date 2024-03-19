@@ -1,0 +1,22 @@
+{
+  "author name": {
+    "author_average_rating": "int",
+    "author_id": "string",
+    "book_ids": {
+      "book_id1": {
+        "title": "",
+        "summary": "",
+        "rating": "",
+        "page_num": "",
+        "reviews": ""
+      }
+    },
+    "book_id2": {
+      "title": "",
+      "summary": "",
+      "rating": "",
+      "page_num": "",
+      "reviews": ""
+    }
+  }
+}
