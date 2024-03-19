@@ -13,12 +13,12 @@ os.environ['ROOT_PATH'] = os.path.abspath(os.path.join("..",os.curdir))
 current_directory = os.path.dirname(os.path.abspath(__file__))
 
 # Specify the path to the JSON file relative to the current script
-json_file_path = os.path.join(current_directory, 'init.json')
+json_file_path = os.path.join(current_directory, 'author_book_details_1.json')
 
 # Assuming your JSON data is stored in a file named 'init.json'
 with open(json_file_path, 'r') as file:
     data = json.load(file)
-    authors_df = pd.DataFrame(data['authors'])
+    #authors_df = pd.DataFrame(data['authors'])
     #episodes_df = pd.DataFrame(data['episodes'])
     #reviews_df = pd.DataFrame(data['reviews'])
 
@@ -29,9 +29,11 @@ CORS(app)
 def json_search(query):
     matches = []
     #merged_df = pd.merge(episodes_df, reviews_df, left_on='id', right_on='id', how='inner')
-    matches = authors_df[authors_df['name'].str.lower().str.contains(query.lower())]
-    matches_filtered = matches[['name', 'author_id', 'average_rating']]
-    matches_filtered_json = matches_filtered.to_json(orient='records')
+    matches = data[query]
+    matches_filtered = {}
+    matches_filtered["author_id"] = matches['author_id']
+    matches_filtered['author_average_rating'] = matches['author_average_rating']
+    matches_filtered_json = json.dumps(matches_filtered)
     return matches_filtered_json
 
 @app.route("/")

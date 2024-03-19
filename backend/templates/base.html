@@ -24,11 +24,10 @@
 
     <script>
 
-        function answerBoxTemplate(name, author_id, average_rating) {
+        function answerBoxTemplate(author_id, author_average_rating) {
             return `<div class=''>
-                <h3 class='episode-title'>${name}</h3>
                 <p class='episode-desc'>ID:${author_id}</p>
-                <p class='episode-rating'>Author Rating: ${average_rating}</p>
+                <p class='episode-desc'>Rating:${author_average_rating}</p>
             </div>`
         }
 
@@ -41,12 +40,11 @@
             console.log(document.getElementById("filter-text-val").value)
             fetch("/episodes?" + new URLSearchParams({ title: document.getElementById("filter-text-val").value }).toString())
                 .then((response) => response.json())
-                .then((data) => data.forEach(row => {
-
+                .then((data) => {
                     let tempDiv = document.createElement("div")
-                    tempDiv.innerHTML = answerBoxTemplate(row.name, row.author_id, row.average_rating)
+                    tempDiv.innerHTML = answerBoxTemplate(data["author_id"], data["author_average_rating"])
                     document.getElementById("answer-box").appendChild(tempDiv)
-                }));
+                });
 
         }
 
