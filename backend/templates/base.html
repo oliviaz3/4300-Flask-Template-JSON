@@ -24,10 +24,17 @@
 
     <script>
 
-        function answerBoxTemplate(author_id, author_average_rating) {
+        function answerBoxTemplate(first, second, third) {
             return `<div class=''>
-                <p class='episode-desc'>ID:${author_id}</p>
-                <p class='episode-desc'>Rating:${author_average_rating}</p>
+                <p class='episode-desc'>${first[1]}, score: ${first[0]}</p>
+                <p class='episode-desc'>${second[1]}, score: ${second[0]}</p>
+                <p class='episode-desc'>${third[1]}, score: ${third[0]}</p>
+            </div>`
+        }
+
+        function noReviews() {
+            return `<div class=''>
+                <p class='episode-desc'>No reviews to calculate similarity!</p>
             </div>`
         }
 
@@ -36,15 +43,25 @@
         }
 
         function filterText() {
-            document.getElementById("answer-box").innerHTML = ""
-            console.log(document.getElementById("filter-text-val").value)
-            fetch("/episodes?" + new URLSearchParams({ title: document.getElementById("filter-text-val").value }).toString())
-                .then((response) => response.json())
-                .then((data) => {
-                    let tempDiv = document.createElement("div")
-                    tempDiv.innerHTML = answerBoxTemplate(data["author_id"], data["author_average_rating"])
-                    document.getElementById("answer-box").appendChild(tempDiv)
-                });
+            // only perform search if 'Enter' key is pressed
+            if (event.keyCode == 13) {
+                document.getElementById("answer-box").innerHTML = ""
+                console.log(document.getElementById("filter-text-val").value)
+                fetch("/episodes?" + new URLSearchParams({ title: document.getElementById("filter-text-val").value }).toString())
+                    .then((response) => response.json())
+                    .then((data) => {
+                        console.log(data)
+                        let tempDiv = document.createElement("div")
+                        // if data != {} 
+                        if (Object.keys(data).length) {
+                            tempDiv.innerHTML = answerBoxTemplate(data["first"], data["second"], data["third"])
+                        }
+                        else {
+                            tempDiv.innerHTML = noReviews()
+                        }
+                        document.getElementById("answer-box").appendChild(tempDiv)
+                    });
+            }
 
         }
 
