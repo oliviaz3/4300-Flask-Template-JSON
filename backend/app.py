@@ -48,11 +48,13 @@ def json_search(query):
     else:
         books = list(data[top[0][1]]["book_title"][0].keys())
         matches_filtered["first"] = (round(100*top[0][0],1),top[0][1], books[0])
+
     if data[top[1][1]]["book_title"] == []:
         matches_filtered["second"] = (round(100*top[1][0],1),top[1][1], "unavailable")
     else:
-        books = list(data[top[0][1]]["book_title"][0].keys())
+        books = list(data[top[1][1]]["book_title"][0].keys())
         matches_filtered["second"] = (round(100*top[1][0],1),top[1][1], books[0])
+        
     if data[top[2][1]]["book_title"] == []:
         matches_filtered["third"] = (round(100*top[2][0],1),top[2][1], "unavailable")
     else:
