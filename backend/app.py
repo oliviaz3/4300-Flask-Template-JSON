@@ -43,9 +43,24 @@ def json_search(query):
     # filter out top 3 authors, excluding self
     top = cossim[1:4]
     matches_filtered = {}
-    matches_filtered["first"] = (round(100*top[0][0],1),top[0][1])
-    matches_filtered["second"] = (round(100*top[1][0],1),top[1][1])
-    matches_filtered["third"] = (round(100*top[2][0],1),top[2][1])
+    if data[top[0][1]]["book_title"] == []:
+        matches_filtered["first"] = (round(100*top[0][0],1),top[0][1], "unavailable")
+    else:
+        books = list(data[top[0][1]]["book_title"][0].keys())
+        matches_filtered["first"] = (round(100*top[0][0],1),top[0][1], books[0])
+    if data[top[1][1]]["book_title"] == []:
+        matches_filtered["second"] = (round(100*top[1][0],1),top[1][1], "unavailable")
+    else:
+        books = list(data[top[0][1]]["book_title"][0].keys())
+        matches_filtered["second"] = (round(100*top[1][0],1),top[1][1], books[0])
+    if data[top[2][1]]["book_title"] == []:
+        matches_filtered["third"] = (round(100*top[2][0],1),top[2][1], "unavailable")
+    else:
+        books = list(data[top[2][1]]["book_title"][0].keys())
+        matches_filtered["third"] = (round(100*top[2][0],1),top[2][1], books[0])
+    #matches_filtered["first"] = (round(100*top[0][0],1),top[0][1])
+    #matches_filtered["second"] = (round(100*top[1][0],1),top[1][1])
+    #matches_filtered["third"] = (round(100*top[2][0],1),top[2][1])
     matches_filtered_json = json.dumps(matches_filtered)
     return matches_filtered_json
 
