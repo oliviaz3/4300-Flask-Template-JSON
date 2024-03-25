@@ -14,7 +14,8 @@
             </div>
             <div class="input-box" onclick="sendFocus()">
                 <img src="{{ url_for('static', filename='images/mag.png') }}" />
-                <input placeholder="Search for an Author" id="filter-text-val" onkeyup="filterText()">
+                <input placeholder="Search for an Author and hit the Enter Key" id="filter-text-val"
+                    onkeyup="filterText()">
             </div>
         </div>
         <div id="answer-box">
@@ -38,6 +39,12 @@
             </div>`
         }
 
+        function authorUnavailable() {
+            return `<div class=''>
+                <p class='episode-desc'>No data on author. Please try a different author.</p>
+            </div>`
+        }
+
         function sendFocus() {
             document.getElementById('filter-text-val').focus()
         }
@@ -54,7 +61,12 @@
                         let tempDiv = document.createElement("div")
                         // if data != {} 
                         if (Object.keys(data).length) {
-                            tempDiv.innerHTML = answerBoxTemplate(data["first"], data["second"], data["third"])
+                            if (data["first"] == "none") {
+                                tempDiv.innerHTML = authorUnavailable()
+                            }
+                            else {
+                                tempDiv.innerHTML = answerBoxTemplate(data["first"], data["second"], data["third"])
+                            }
                         }
                         else {
                             tempDiv.innerHTML = noReviews()

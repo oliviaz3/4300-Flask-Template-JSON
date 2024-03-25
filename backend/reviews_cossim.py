@@ -99,11 +99,13 @@ def author_word_counts(data, name):
           author_word_count[author name] = {term1: tf1, term2: tf2...}
     """
     author_word_count = {}
-    for word in data[name]["reviews"]:
-        if word in author_word_count.keys():
-            author_word_count[word] += 1
-        else:
-            author_word_count[word] = 1
+    names = list(data.keys())
+    if name in names:
+        for word in data[name]["reviews"]:
+            if word in author_word_count.keys():
+                author_word_count[word] += 1
+            else:
+                author_word_count[word] = 1
     return author_word_count
 
 

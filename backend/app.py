@@ -37,41 +37,42 @@ def json_search(query):
     n_authors = len(data.keys())
     idf = rc.compute_idf(inv_idx, n_authors)
     norms = rc.compute_doc_norms(inv_idx, idf)
-    query_author_word_counts = rc.author_word_counts(data, query)
-    # cossim = list of tuples (score, author name)
-    cossim = rc.index_search(query_author_word_counts, inv_idx, idf, norms)
-    # if input author has no reviews
-    if cossim == []:
-        return json.dumps({})
-    # filter out top 3 authors, excluding self
-    top = cossim[1:4]
     matches_filtered = {}
-    if data[top[0][1]]["book_title"] == []:
-        matches_filtered["first"] = (
-            round(100*top[0][0], 1), top[0][1], "unavailable")
+    query_author_word_counts = rc.author_word_counts(data, query.lower())
+    #author/key not in data
+    if (len(query_author_word_counts) == 0):
+        matches_filtered["first"] = "none"
     else:
-        books = list(data[top[0][1]]["book_title"][0].keys())
-        matches_filtered["first"] = (
-            round(100*top[0][0], 1), top[0][1], books[0])
+        # cossim = list of tuples (score, author name)
+        cossim = rc.index_search(query_author_word_counts, inv_idx, idf, norms)
+        # if input author has no reviews
+        if cossim == []:
+            return json.dumps({})
+        # filter out top 3 authors, excluding self
+        top = cossim[1:4]
+        if data[top[0][1]]["book_title"] == []:
+            matches_filtered["first"] = (
+                round(100*top[0][0], 1), top[0][1], "unavailable")
+        else:
+            books = list(data[top[0][1]]["book_title"][0].keys())
+            matches_filtered["first"] = (
+                round(100*top[0][0], 1), top[0][1], books[0])
 
-    if data[top[1][1]]["book_title"] == []:
-        matches_filtered["second"] = (
-            round(100*top[1][0], 1), top[1][1], "unavailable")
-    else:
-        books = list(data[top[1][1]]["book_title"][0].keys())
-        matches_filtered["second"] = (
-            round(100*top[1][0], 1), top[1][1], books[0])
+        if data[top[1][1]]["book_title"] == []:
+            matches_filtered["second"] = (
+                round(100*top[1][0], 1), top[1][1], "unavailable")
+        else:
+            books = list(data[top[1][1]]["book_title"][0].keys())
+            matches_filtered["second"] = (
+                round(100*top[1][0], 1), top[1][1], books[0])
 
-    if data[top[2][1]]["book_title"] == []:
-        matches_filtered["third"] = (
-            round(100*top[2][0], 1), top[2][1], "unavailable")
-    else:
-        books = list(data[top[2][1]]["book_title"][0].keys())
-        matches_filtered["third"] = (
-            round(100*top[2][0], 1), top[2][1], books[0])
-    # matches_filtered["first"] = (round(100*top[0][0],1),top[0][1])
-    # matches_filtered["second"] = (round(100*top[1][0],1),top[1][1])
-    # matches_filtered["third"] = (round(100*top[2][0],1),top[2][1])
+        if data[top[2][1]]["book_title"] == []:
+            matches_filtered["third"] = (
+                round(100*top[2][0], 1), top[2][1], "unavailable")
+        else:
+            books = list(data[top[2][1]]["book_title"][0].keys())
+            matches_filtered["third"] = (
+                round(100*top[2][0], 1), top[2][1], books[0])
     matches_filtered_json = json.dumps(matches_filtered)
     return matches_filtered_json
 
