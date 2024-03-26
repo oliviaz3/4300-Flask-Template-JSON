@@ -1,3 +1,4 @@
+@import url();
 .full-body-container{
     position: absolute;
     top:0;
@@ -10,7 +11,15 @@
     justify-content: start;
     align-items: center;
     flex-direction: column;
+    background-color: #D4BC98;
+    /* background-color: #d5c7ac; */
 }
+
+/* html {
+    background-color: #D4BC98;
+    /* background-color: #d5c7ac;
+} 
+*/
 
 #google-c{
     color:#4285F4;
@@ -33,7 +42,10 @@
 }
 
 #google-0-2{
-    color:#DB4437;
+    color: #07111A;
+    color: #285363;
+    color: #521A16;
+    color: #611E1A;
 }
 
 .google-colors{
@@ -41,6 +53,9 @@
     align-items: center;
     font-size: 48px;
     font-family: 'Open Sans', sans-serif;
+    font-family: 'Playfair Display', sans-serif;
+    font-size: 60px;
+    /* font-weight: 1000; */
 }
 
 .google-colors h1{
@@ -50,7 +65,8 @@
 
 .input-box{
     border-radius: 50px;
-    border:1px solid black;
+    border:1.5px solid #521A16;
+    /* border-color: #521A16; */
     display: flex;
     align-items: center;
     margin-top: 10px;
@@ -82,10 +98,49 @@
     margin-top:50px; 
 }
 
+input {
+    background-color: #d5c7ac;
+    background-color: #D4BC98;
+}
+
 .episode-title{
     font-family: 'Kanit', sans-serif;
 }
 
 .episode-desc{
     font-family: 'Montserrat', sans-serif;
+    font-family: 'Lora', sans-serif;
+    /* background-color: #817B65; */
+    padding: 12px;
+    padding-left: 18px;
+    padding-right: 14px;
+    border-color: 1px black;
+    background-color: #d5c7ac;
+    border-radius: 25px;
+    color: #2E2D04;
+    font-size: 18px;
+    font-weight: bold;
 }
+
+/* .rec-box {
+    border-radius: 10px;
+    /* background-color: ; 
+}
+ */
+
+/* Referenced code from https://www.w3schools.com/howto/howto_css_loader.asp */
+  /* .loader {
+    /* margin: auto; 
+    border: 8px solid #817B65;
+    border: 8px solid #d5c7ac;
+    border-top: 8px solid #611E1A;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1.7s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }  */

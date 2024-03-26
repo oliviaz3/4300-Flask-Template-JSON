@@ -5,6 +5,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Kanit&family=Montserrat&family=Open+Sans:wght@500&display=swap"
     rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Playfair Display' rel='stylesheet'>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora" rel="stylesheet">
 
 <body>
     <div class="full-body-container">
@@ -18,18 +22,26 @@
                     onkeyup="filterText()">
             </div>
         </div>
+        <!-- <div class="loader"></div> -->
+        
         <div id="answer-box">
 
         </div>
     </div>
 
     <script>
-
         function answerBoxTemplate(first, second, third) {
-            return `<div class=''>
-                <p class='episode-desc'>${first[1]}, score: ${first[0]}, book recommendation: ${first[2]}</p>
-                <p class='episode-desc'>${second[1]}, score: ${second[0]}, book recommendation: ${second[2]}</p>
-                <p class='episode-desc'>${third[1]}, score: ${third[0]}, book recommendation: ${third[2]}</p>
+            return `<div class='rec-box'>
+                <p class='episode-desc'>${first[1]}<br>
+                    Score: ${first[0]}<br>
+                    Book Recommendation: ${first[2]}</p>
+                <p class='episode-desc'>${second[1]}<br>
+                    Score: ${second[0]}<br>
+                    Book Recommendation: ${second[2]}</p>
+                <p class='episode-desc'>${third[1]}<br>
+                    Score: ${third[0]}<br>
+                    Book Recommendation: ${third[2]}</p>
+                
             </div>`
         }
 
