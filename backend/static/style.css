@@ -1,12 +1,13 @@
 @import url();
-.full-body-container{
+
+.full-body-container {
     position: absolute;
-    top:0;
-    left:0;
-    right:0;
-    bottom:0;
-    width:100%;
-    height:100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: start;
     align-items: center;
@@ -21,34 +22,34 @@
 } 
 */
 
-#google-c{
-    color:#4285F4;
+#google-c {
+    color: #4285F4;
 }
 
-#google-s{
-    color:#DB4437;
+#google-s {
+    color: #DB4437;
 }
 
-#google-4{
-    color:	#F4B400;
+#google-4 {
+    color: #F4B400;
 }
 
-#google-3{
-    color:	#4285F4;
+#google-3 {
+    color: #4285F4;
 }
 
-#google-0-1{
-    color:	#0F9D58;
+#google-0-1 {
+    color: #0F9D58;
 }
 
-#google-0-2{
+#google-0-2 {
     color: #07111A;
     color: #285363;
     color: #521A16;
     color: #611E1A;
 }
 
-.google-colors{
+.google-colors {
     display: flex;
     align-items: center;
     font-size: 48px;
@@ -58,34 +59,34 @@
     /* font-weight: 1000; */
 }
 
-.google-colors h1{
+.google-colors h1 {
     margin-bottom: 0;
     margin-right: 3px;
 }
 
-.input-box{
+.input-box {
     border-radius: 50px;
-    border:1.5px solid #521A16;
+    border: 1.5px solid #521A16;
     /* border-color: #521A16; */
     display: flex;
     align-items: center;
     margin-top: 10px;
-    padding:12px;
+    padding: 12px;
     width: 600px;
 }
 
-.input-box img{
+.input-box img {
     height: 20px;
-    width:20px;
+    width: 20px;
 }
 
-.top-text{
+.top-text {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.input-box input{
+.input-box input {
     width: 100%;
     margin-left: 10px;
     font-size: 16px;
@@ -93,9 +94,9 @@
     outline: 0;
 }
 
-#answer-box{
+#answer-box {
     width: 700px;
-    margin-top:50px; 
+    margin-top: 50px;
 }
 
 input {
@@ -103,11 +104,11 @@ input {
     background-color: #D4BC98;
 }
 
-.episode-title{
+.episode-title {
     font-family: 'Kanit', sans-serif;
 }
 
-.episode-desc{
+.episode-desc {
     font-family: 'Montserrat', sans-serif;
     font-family: 'Lora', sans-serif;
     /* background-color: #817B65; */
@@ -122,6 +123,32 @@ input {
     font-weight: bold;
 }
 
+.loader {
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid #521A16;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -20px;
+    margin-top: -20px;
+    display: none;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
 /* .rec-box {
     border-radius: 10px;
     /* background-color: ; 
@@ -129,7 +156,7 @@ input {
  */
 
 /* Referenced code from https://www.w3schools.com/howto/howto_css_loader.asp */
-  /* .loader {
+/* .loader {
     /* margin: auto; 
     border: 8px solid #817B65;
     border: 8px solid #d5c7ac;

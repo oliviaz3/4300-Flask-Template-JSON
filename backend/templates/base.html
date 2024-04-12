@@ -22,11 +22,9 @@
                     onkeyup="filterText()">
             </div>
         </div>
-        <!-- <div class="loader"></div> -->
+        <div id="loader" class="loader"></div>
 
-        <div id="answer-box">
-
-        </div>
+        <div id="answer-box"></div>
     </div>
 
     <script>
@@ -61,32 +59,44 @@
             document.getElementById('filter-text-val').focus()
         }
 
+        function showLoader() {
+            document.getElementById("loader").style.display = "block";
+        }
+        function hideLoader() {
+            document.getElementById("loader").style.display = "none";
+        }
+
+        function showContent() {
+            showLoader()
+            document.getElementById("answer-box").innerHTML = ""
+            console.log(document.getElementById("filter-text-val").value)
+            fetch("/episodes?" + new URLSearchParams({ title: document.getElementById("filter-text-val").value }).toString())
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data)
+                    let tempDiv = document.createElement("div")
+                    // if data != {} 
+                    if (Object.keys(data).length) {
+                        if (data["first"] == "none") {
+                            tempDiv.innerHTML = authorUnavailable()
+                        }
+                        else {
+                            tempDiv.innerHTML = answerBoxTemplate(data["first"], data["second"], data["third"])
+                        }
+                    }
+                    else {
+                        tempDiv.innerHTML = noReviews()
+                    }
+                    document.getElementById("answer-box").appendChild(tempDiv)
+                    hideLoader()
+                })
+        }
+
         function filterText() {
             // only perform search if 'Enter' key is pressed
             if (event.keyCode == 13) {
-                document.getElementById("answer-box").innerHTML = ""
-                console.log(document.getElementById("filter-text-val").value)
-                fetch("/episodes?" + new URLSearchParams({ title: document.getElementById("filter-text-val").value }).toString())
-                    .then((response) => response.json())
-                    .then((data) => {
-                        console.log(data)
-                        let tempDiv = document.createElement("div")
-                        // if data != {} 
-                        if (Object.keys(data).length) {
-                            if (data["first"] == "none") {
-                                tempDiv.innerHTML = authorUnavailable()
-                            }
-                            else {
-                                tempDiv.innerHTML = answerBoxTemplate(data["first"], data["second"], data["third"])
-                            }
-                        }
-                        else {
-                            tempDiv.innerHTML = noReviews()
-                        }
-                        document.getElementById("answer-box").appendChild(tempDiv)
-                    });
+                showContent()
             }
-
         }
 
     </script>
