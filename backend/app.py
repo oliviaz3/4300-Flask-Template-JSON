@@ -5,6 +5,7 @@ from flask_cors import CORS
 from helpers.MySQLDatabaseHandler import MySQLDatabaseHandler
 import pandas as pd
 import reviews_cossim as rc
+import numpy as np
 
 # ROOT_PATH for linking with all your files.
 # Feel free to use a config.py or settings.py with a global export variable
@@ -30,6 +31,20 @@ CORS(app)
 # Sample search using json with pandas
 # query rn is the exact author name
 
+def best_book(author):
+    """
+    Returns (book title, rating) of the highest rated book for [author]
+    """
+    titles = []
+    ratings = []
+    for book in data[author]["book_title"]:
+        title = list(book.keys())[0]
+        rating = book[title]["rating"]
+        titles.append(title)
+        ratings.append(rating)
+    best_ind = np.argmax(ratings)
+    return titles[best_ind],ratings[best_ind]
+
 
 def json_search(query):
     # calculate reviews cossim
@@ -54,25 +69,25 @@ def json_search(query):
             matches_filtered["first"] = (
                 round(100*top[0][0], 1), top[0][1], "unavailable")
         else:
-            books = list(data[top[0][1]]["book_title"][0].keys())
+            book = best_book(top[0][1])
             matches_filtered["first"] = (
-                round(100*top[0][0], 1), top[0][1], books[0])
+                round(100*top[0][0], 1), top[0][1], book[0])
 
         if data[top[1][1]]["book_title"] == []:
             matches_filtered["second"] = (
                 round(100*top[1][0], 1), top[1][1], "unavailable")
         else:
-            books = list(data[top[1][1]]["book_title"][0].keys())
+            book = best_book(top[1][1])
             matches_filtered["second"] = (
-                round(100*top[1][0], 1), top[1][1], books[0])
+                round(100*top[1][0], 1), top[1][1], book[0])
 
         if data[top[2][1]]["book_title"] == []:
             matches_filtered["third"] = (
                 round(100*top[2][0], 1), top[2][1], "unavailable")
         else:
-            books = list(data[top[2][1]]["book_title"][0].keys())
+            book = best_book(top[2][1])
             matches_filtered["third"] = (
-                round(100*top[2][0], 1), top[2][1], books[0])
+                round(100*top[2][0], 1), top[2][1], book[0])
     matches_filtered_json = json.dumps(matches_filtered)
     return matches_filtered_json
 
