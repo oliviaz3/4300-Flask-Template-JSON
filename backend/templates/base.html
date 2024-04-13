@@ -9,6 +9,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lora" rel="stylesheet">
+<!-- Add icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <body>
     <div class="full-body-container">
@@ -29,18 +31,43 @@
 
     <script>
         function answerBoxTemplate(first, second, third) {
-            return `<div class='rec-box'>
-                <p class='episode-desc'>${first[1]}<br>
+            content = `<div class='rec-box'>
+                <button type="button" class="collapsible"> 
+                    <i class="fa fa-plus"></i>
+                    ${first[1]}
+                    
+                </button>
+
+                <div class="content">
+                    <p class='episode-desc'>
                     Score: ${first[0]}<br>
                     Book Recommendation: ${first[2]}</p>
-                <p class='episode-desc'>${second[1]}<br>
+                </div>
+
+                <button type="button" class="collapsible">
+                    <i class="fa fa-plus"></i>
+                    ${second[1]}
+                </button>
+
+                <div class="content">
+                    <p class='episode-desc'>
                     Score: ${second[0]}<br>
                     Book Recommendation: ${second[2]}</p>
-                <p class='episode-desc'>${third[1]}<br>
+                </div>
+
+                <button type="button" class="collapsible">
+                    <i class="fa fa-plus"></i>
+                    ${third[1]}
+                </button>
+
+                <div class="content">
+                    <p class='episode-desc'>
                     Score: ${third[0]}<br>
                     Book Recommendation: ${third[2]}</p>
-                
+                </div>
             </div>`
+            return content
+
         }
 
         function noReviews() {
@@ -66,6 +93,27 @@
             document.getElementById("loader").style.display = "none";
         }
 
+        function showCollapsible() {
+            var coll = document.getElementsByClassName("collapsible")
+            var i
+
+            for (i = 0; i < coll.length; i++) {
+                coll[i].addEventListener("click", function () {
+                    this.classList.toggle("active");
+                    author = this.innerText
+                    content = this.nextElementSibling;
+                    if (content.style.display === "block") {
+                        content.style.display = "none";
+                        this.innerHTML = `<i class="fa fa-plus"></i> ${author}`;
+                    } else {
+                        content.style.display = "block";
+                        this.innerHTML = `<i class="fa fa-minus"></i> ${author}`;
+                    }
+                })
+            };
+
+        }
+
         function showContent() {
             showLoader()
             document.getElementById("answer-box").innerHTML = ""
@@ -88,6 +136,7 @@
                         tempDiv.innerHTML = noReviews()
                     }
                     document.getElementById("answer-box").appendChild(tempDiv)
+                    showCollapsible();
                     hideLoader()
                 })
         }

@@ -123,6 +123,28 @@ input {
     font-weight: bold;
 }
 
+.collapsible {
+    margin-bottom: 10px;
+    font-family: 'Lora', sans-serif;
+    background-color: #d5c7ac;
+    color: #2E2D04;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    border-radius: 25px;
+    text-align: left;
+    outline: none;
+    font-size: 20px;
+    font-weight: bold;
+
+}
+
+.active,
+.collapsible:hover {
+    background-color: #baab8d;
+}
+
 .loader {
     border: 4px solid rgba(255, 255, 255, 0.3);
     border-top: 4px solid #521A16;
@@ -148,6 +170,17 @@ input {
     }
 }
 
+.content {
+    display: none;
+}
+
+button i.fa {
+    color: #2E2D04;
+    font-size: 18px;
+    vertical-align: middle;
+    cursor: pointer;
+    transition: 0.3s;
+}
 
 /* .rec-box {
     border-radius: 10px;
