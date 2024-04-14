@@ -6,6 +6,10 @@ from helpers.MySQLDatabaseHandler import MySQLDatabaseHandler
 import pandas as pd
 import reviews_cossim as rc
 import numpy as np
+import svd as svd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from scipy.sparse.linalg import svds
+from sklearn.preprocessing import normalize
 
 # ROOT_PATH for linking with all your files.
 # Feel free to use a config.py or settings.py with a global export variable
@@ -44,6 +48,31 @@ def best_book(author):
         ratings.append(rating)
     best_ind = np.argmax(ratings)
     return titles[best_ind],ratings[best_ind]
+
+def get_author_index(data, query):
+    authors = list(data.keys())
+    auth_ind = -1
+    if query in authors:
+        auth_ind = authors.index(query)
+    return auth_ind
+def get_svd_authors(data, query):
+    """
+    Calculates svd and outputs
+    """
+    ind = get_author_index(data, query)
+    output = []
+    # output = [] if author is not in keys
+    if ind != -1:
+        docs = svd.create_docs(data)
+        vectorizer = TfidfVectorizer(max_df = .7,
+                                min_df = 1)
+        td_matrix = vectorizer.fit_transform([x[1] for x in docs])
+        docs_compressed, s, words_compressed = svds(td_matrix, k=40)
+        words_compressed = words_compressed.transpose()
+        docs_compressed_normed = normalize(docs_compressed)
+        for title, score in svd.closest_author(ind, docs_compressed_normed):
+            output.append((title, score))
+    return output
 
 
 def json_search(query):
