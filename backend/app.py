@@ -10,6 +10,7 @@ import svd as svd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from scipy.sparse.linalg import svds
 from sklearn.preprocessing import normalize
+import re
 
 # ROOT_PATH for linking with all your files.
 # Feel free to use a config.py or settings.py with a global export variable
@@ -37,17 +38,27 @@ CORS(app)
 
 def best_book(author):
     """
-    Returns (book title, rating) of the highest rated book for [author]
+    Returns (book title, rating, genre) of the highest rated book for [author]
     """
     titles = []
     ratings = []
+    genres = []
     for book in data[author]["book_title"]:
         title = list(book.keys())[0]
-        rating = book[title]["rating"]
         titles.append(title)
-        ratings.append(rating)
+        ratings.append(book[title]["rating"])
+        genres.append(book[title]["genre"])
     best_ind = np.argmax(ratings)
-    return titles[best_ind],ratings[best_ind]
+    return titles[best_ind],ratings[best_ind], genres[best_ind]
+
+def get_author_genres(author):
+    genres = data[author]["author_genres"]
+    # get rid of the last ,
+    if genres[-1] == ",":
+        genres = genres[:-1]
+    # add space after commas to separate genres
+    genres = re.sub(r'(?<=[,])(?=[^\s])', r' ', genres)
+    return genres
 
 def get_author_index(data, query):
     """
@@ -104,27 +115,27 @@ def json_search(query):
         top = svd[0:3]
         if data[top[0][0]]["book_title"] == []:
             matches_filtered["first"] = (
-                round(100*top[0][1], 1), top[0][0], "unavailable")
+                round(100*top[0][1], 1), top[0][0], get_author_genres(top[0][0]), "unavailable", "unavailable")
         else:
             book = best_book(top[0][0])
             matches_filtered["first"] = (
-                round(100*top[0][1], 1), top[0][0], book[0])
+                round(100*top[0][1], 1), top[0][0], get_author_genres(top[0][0]), book[0],book[2])
 
         if data[top[1][0]]["book_title"] == []:
             matches_filtered["second"] = (
-                round(100*top[1][1], 1), top[1][0], "unavailable")
+                round(100*top[1][1], 1), top[1][0], get_author_genres(top[1][0]), "unavailable", "unavailable")
         else:
             book = best_book(top[1][0])
             matches_filtered["second"] = (
-                round(100*top[1][1], 1), top[1][0], book[0])
+                round(100*top[1][1], 1), top[1][0], get_author_genres(top[1][0]), book[0],book[2])
 
         if data[top[2][0]]["book_title"] == []:
             matches_filtered["third"] = (
-                round(100*top[2][1], 1), top[2][0], "unavailable")
+                round(100*top[2][1], 1), top[2][0], get_author_genres(top[2][0]), "unavailable", "unavailable")
         else:
             book = best_book(top[2][0])
             matches_filtered["third"] = (
-                round(100*top[2][1], 1), top[2][0], book[0])
+                round(100*top[2][1], 1), top[2][0], get_author_genres(top[2][0]), book[0],book[2])
     matches_filtered_json = json.dumps(matches_filtered)
     return matches_filtered_json
 

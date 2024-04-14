@@ -31,6 +31,7 @@
 
     <script>
         function answerBoxTemplate(first, second, third) {
+            // (score, author name, author genres, book title, book genre)
             content = `<div class='rec-box'>
                 <button type="button" class="collapsible"> 
                     <i class="fa fa-plus"></i>
@@ -41,7 +42,8 @@
                 <div class="content">
                     <p class='episode-desc'>
                     Score: ${first[0]}<br>
-                    Highest Rated Book: ${first[2]}</p>
+                    Author Genres: ${first[2]}<br>
+                    Highest Rated Book: ${first[3]} (Genre: ${first[4]})</p>
                 </div>
 
                 <button type="button" class="collapsible">
@@ -52,7 +54,8 @@
                 <div class="content">
                     <p class='episode-desc'>
                     Score: ${second[0]}<br>
-                    Highest Rated Book: ${second[2]}</p>
+                    Author Genres: ${second[2]}<br>
+                    Highest Rated Book: ${second[3]} (Genre: ${second[4]})</p>
                 </div>
 
                 <button type="button" class="collapsible">
@@ -63,7 +66,8 @@
                 <div class="content">
                     <p class='episode-desc'>
                     Score: ${third[0]}<br>
-                    Highest Rated Book: ${third[2]}</p>
+                    Author Genres: ${third[2]}<br>
+                    Highest Rated Book: ${third[3]} (Genre: ${third[4]})</p>
                 </div>
             </div>`
             return content
@@ -102,11 +106,13 @@
                     this.classList.toggle("active");
                     author = this.innerText
                     content = this.nextElementSibling;
-                    if (content.style.display === "block") {
-                        content.style.display = "none";
+                    if (content.style.opacity === "1") {
+                        content.style.height = 0;
+                        content.style.opacity = 0;
                         this.innerHTML = `<i class="fa fa-plus"></i> ${author}`;
                     } else {
-                        content.style.display = "block";
+                        content.style.opacity = 1;
+                        content.style.height = "auto";
                         this.innerHTML = `<i class="fa fa-minus"></i> ${author}`;
                     }
                 })
