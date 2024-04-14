@@ -50,73 +50,81 @@ def best_book(author):
     return titles[best_ind],ratings[best_ind]
 
 def get_author_index(data, query):
+    """
+    Returns the index of an author in the original data. If query is not in the
+    the author keys return -1.
+    """
     authors = list(data.keys())
     auth_ind = -1
     if query in authors:
         auth_ind = authors.index(query)
     return auth_ind
-def get_svd_authors(data, query):
+
+def get_svd_authors(data, ind):
     """
-    Calculates svd and outputs
+    Calculates svd and outputs a list of tuples with author name and score
+    in descending order based on score. 
     """
-    ind = get_author_index(data, query)
     output = []
     # output = [] if author is not in keys
     if ind != -1:
         docs = svd.create_docs(data)
-        vectorizer = TfidfVectorizer(max_df = .7,
-                                min_df = 1)
+        vectorizer = TfidfVectorizer(max_df = .7, min_df = 1)
         td_matrix = vectorizer.fit_transform([x[1] for x in docs])
         docs_compressed, s, words_compressed = svds(td_matrix, k=40)
         words_compressed = words_compressed.transpose()
         docs_compressed_normed = normalize(docs_compressed)
-        for title, score in svd.closest_author(ind, docs_compressed_normed):
-            output.append((title, score))
+        for name, score in svd.closest_author(docs, ind, docs_compressed_normed):
+            output.append((name, score))
     return output
 
 
 def json_search(query):
     # calculate reviews cossim
-    inv_idx = rc.inverted_index(data)
-    n_authors = len(data.keys())
-    idf = rc.compute_idf(inv_idx, n_authors)
-    norms = rc.compute_doc_norms(inv_idx, idf)
+    #inv_idx = rc.inverted_index(data)
+    #n_authors = len(data.keys())
+    #idf = rc.compute_idf(inv_idx, n_authors)
+    #norms = rc.compute_doc_norms(inv_idx, idf)
     matches_filtered = {}
-    query_author_word_counts = rc.author_word_counts(data, query.lower())
+    auth_ind = get_author_index(data, query.lower())
+    #query_author_word_counts = rc.author_word_counts(data, query.lower())
     #author/key not in data
-    if (len(query_author_word_counts) == 0):
+    #if (len(query_author_word_counts) == 0):
+        #matches_filtered["first"] = "none"
+    if auth_ind == -1:
         matches_filtered["first"] = "none"
     else:
         # cossim = list of tuples (score, author name)
-        cossim = rc.index_search(query_author_word_counts, inv_idx, idf, norms)
+        svd = get_svd_authors(data, auth_ind)
+        # cossim = rc.index_search(query_author_word_counts, inv_idx, idf, norms)
         # if input author has no reviews
-        if cossim == []:
+        if svd == []:
             return json.dumps({})
         # filter out top 3 authors, excluding self
-        top = cossim[1:4]
-        if data[top[0][1]]["book_title"] == []:
+        top = svd[0:3]
+        if data[top[0][0]]["book_title"] == []:
             matches_filtered["first"] = (
-                round(100*top[0][0], 1), top[0][1], "unavailable")
+                round(100*top[0][1], 1), top[0][0], "unavailable")
         else:
-            book = best_book(top[0][1])
+            book = best_book(top[0][0])
             matches_filtered["first"] = (
-                round(100*top[0][0], 1), top[0][1], book[0])
+                round(100*top[0][1], 1), top[0][0], book[0])
 
-        if data[top[1][1]]["book_title"] == []:
+        if data[top[1][0]]["book_title"] == []:
             matches_filtered["second"] = (
-                round(100*top[1][0], 1), top[1][1], "unavailable")
+                round(100*top[1][1], 1), top[1][0], "unavailable")
         else:
-            book = best_book(top[1][1])
+            book = best_book(top[1][0])
             matches_filtered["second"] = (
-                round(100*top[1][0], 1), top[1][1], book[0])
+                round(100*top[1][1], 1), top[1][0], book[0])
 
-        if data[top[2][1]]["book_title"] == []:
+        if data[top[2][0]]["book_title"] == []:
             matches_filtered["third"] = (
-                round(100*top[2][0], 1), top[2][1], "unavailable")
+                round(100*top[2][1], 1), top[2][0], "unavailable")
         else:
-            book = best_book(top[2][1])
+            book = best_book(top[2][0])
             matches_filtered["third"] = (
-                round(100*top[2][0], 1), top[2][1], book[0])
+                round(100*top[2][1], 1), top[2][0], book[0])
     matches_filtered_json = json.dumps(matches_filtered)
     return matches_filtered_json
 
