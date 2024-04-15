@@ -176,7 +176,7 @@ def json_search(query):
         else:
             book = best_book(top[0][0])
             matches_filtered["first"] = (
-                round(100*top[0][1], 1), top[0][0], get_author_genres(top[0][0]), book[0],book[2])
+                round(100*top[0][1], 1), top[0][0], get_author_genres(top[0][0]), book[0],book[2], bins(round(100*top[0][1], 1)))
 
 
         if data[top[1][0]]["book_title"] == []:
@@ -185,7 +185,7 @@ def json_search(query):
         else:
             book = best_book(top[1][0])
             matches_filtered["second"] = (
-                round(100*top[1][1], 1), top[1][0], get_author_genres(top[1][0]), book[0],book[2])
+                round(100*top[1][1], 1), top[1][0], get_author_genres(top[1][0]), book[0],book[2], bins(round(100*top[0][1], 1)))
 
 
         if data[top[2][0]]["book_title"] == []:
@@ -194,7 +194,7 @@ def json_search(query):
         else:
             book = best_book(top[2][0])
             matches_filtered["third"] = (
-                round(100*top[2][1], 1), top[2][0], get_author_genres(top[2][0]), book[0],book[2])
+                round(100*top[2][1], 1), top[2][0], get_author_genres(top[2][0]), book[0],book[2], bins(round(100*top[0][1], 1)))
     matches_filtered_json = json.dumps(matches_filtered)
 
     return matches_filtered_json
