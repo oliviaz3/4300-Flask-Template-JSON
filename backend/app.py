@@ -79,9 +79,6 @@ def get_svd_authors(data, query):
     ind = get_author_index(data, query.lower())
     if ind == -1:
         return[]
-
-    output = []
-    # output = [] if author is not in keys
     if ind != -1:
         docs = svd.create_docs(data)
         vectorizer = TfidfVectorizer(max_df = .7, min_df = 1)
@@ -89,9 +86,7 @@ def get_svd_authors(data, query):
         docs_compressed, s, words_compressed = svds(td_matrix, k=40)
         words_compressed = words_compressed.transpose()
         docs_compressed_normed = normalize(docs_compressed)
-        for name, score in svd.closest_author(docs, ind, docs_compressed_normed):
-            output.append((name, score))
-    return output
+    return svd.closest_author(docs, ind, docs_compressed_normed)
 
 def get_cossim_authors(data, query):
     # calculate reviews cossim
