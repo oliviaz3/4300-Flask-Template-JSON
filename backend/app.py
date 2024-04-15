@@ -77,6 +77,8 @@ def get_svd_authors(data, query):
     in descending order based on score. 
     """
     ind = get_author_index(data, query.lower())
+    if ind == -1:
+        return[]
 
     output = []
     # output = [] if author is not in keys
@@ -98,6 +100,10 @@ def get_cossim_authors(data, query):
     idf = rc.compute_idf(inv_idx, n_authors)
     norms = rc.compute_doc_norms(inv_idx, idf)
     query_author_word_counts = rc.author_word_counts(data, query.lower())
+
+    if (len(query_author_word_counts) == 0):
+        return []
+    
     cossim = rc.index_search(query_author_word_counts, inv_idx, idf, norms)
 
     return cossim
@@ -136,28 +142,22 @@ def combine_scores(svd, cossim, svd_weight = 1, cossim_weight = 1):
 
 
 def json_search(query):
-    # calculate reviews cossim
-    #inv_idx = rc.inverted_index(data)
-    #n_authors = len(data.keys())
-    #idf = rc.compute_idf(inv_idx, n_authors)
-    #norms = rc.compute_doc_norms(inv_idx, idf)
     matches_filtered = {}
-    auth_ind = get_author_index(data, query.lower())
-    #query_author_word_counts = rc.author_word_counts(data, query.lower())
-    #author/key not in data
-    #if (len(query_author_word_counts) == 0):
-        #matches_filtered["first"] = "none"
-    if auth_ind == -1:
+    cossim_score = normalize(get_cossim_authors(data, query.lower()))
+    svd_score = normalize(get_svd_authors(data, query.lower()))
+
+    if len(cossim_score) == 0 or len(svd_score) == 0:
         matches_filtered["first"] = "none"
     else:
-        # cossim = list of tuples (score, author name)
-        svd = get_svd_authors(data, auth_ind)
-        # cossim = rc.index_search(query_author_word_counts, inv_idx, idf, norms)
+        combined_scores = normalize(combine_scores(cossim_score, svd_score))
+
         # if input author has no reviews
-        if svd == []:
+        if len(combined_scores) == 0:
             return json.dumps({})
+
         # filter out top 3 authors, excluding self
-        top = svd[0:3]
+        top = combined_scores[0:3]
+
         if data[top[0][0]]["book_title"] == []:
             matches_filtered["first"] = (
                 round(100*top[0][1], 1), top[0][0], get_author_genres(top[0][0]), "unavailable", "unavailable")
@@ -165,6 +165,7 @@ def json_search(query):
             book = best_book(top[0][0])
             matches_filtered["first"] = (
                 round(100*top[0][1], 1), top[0][0], get_author_genres(top[0][0]), book[0],book[2])
+
 
         if data[top[1][0]]["book_title"] == []:
             matches_filtered["second"] = (
@@ -174,6 +175,7 @@ def json_search(query):
             matches_filtered["second"] = (
                 round(100*top[1][1], 1), top[1][0], get_author_genres(top[1][0]), book[0],book[2])
 
+
         if data[top[2][0]]["book_title"] == []:
             matches_filtered["third"] = (
                 round(100*top[2][1], 1), top[2][0], get_author_genres(top[2][0]), "unavailable", "unavailable")
@@ -182,6 +184,7 @@ def json_search(query):
             matches_filtered["third"] = (
                 round(100*top[2][1], 1), top[2][0], get_author_genres(top[2][0]), book[0],book[2])
     matches_filtered_json = json.dumps(matches_filtered)
+
     return matches_filtered_json
 
 
