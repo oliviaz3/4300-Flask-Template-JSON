@@ -140,6 +140,17 @@ def combine_scores(svd, cossim, svd_weight = 1, cossim_weight = 1):
     result = sorted(sum_scores, key = lambda x: x[1], reverse=True)
     return result
 
+def bins(score):
+  score_label = None
+
+  if score <= 0.3333:
+    score_label = "Low"
+  elif score > 0.3333 and score <= 0.6666:
+    score_label = "Medium"
+  elif score > 0.6666 and score <=1:
+    score_label = "High"
+
+  return score_label
 
 def json_search(query):
     matches_filtered = {}
