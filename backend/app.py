@@ -79,7 +79,7 @@ def get_svd_authors(data, query):
     ind = get_author_index(data, query.lower())
     if ind == -1:
         return[]
-    if ind != -1:
+    else:
         docs = svd.create_docs(data)
         vectorizer = TfidfVectorizer(max_df = .7, min_df = 1)
         td_matrix = vectorizer.fit_transform([x[1] for x in docs])
