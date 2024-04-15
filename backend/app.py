@@ -87,7 +87,7 @@ def get_svd_authors(data, query):
         docs_compressed, s, words_compressed = svds(td_matrix, k=40)
         words_compressed = words_compressed.transpose()
         docs_compressed_normed = normalize(docs_compressed)
-        output = svd.closest_author(docs, ind, docs_compressed_normed)
+        output = svd.closest_author(docs, ind, docs_compressed_normed, len(data.keys()))
     return output
 
 def get_cossim_authors(data, query):
@@ -131,9 +131,9 @@ def combine_scores(svd, cossim, svd_weight = 1, cossim_weight = 1):
     while i<len(svd) and j<len(cossim):
         svd_name = svd[i]
         cossim_name =  cossim[j]
-        if svd_name==cossim_name:
+        if svd_name[0]==cossim_name[0]:
             sum_score = (svd[i][1]*svd_weight) + (cossim[j][1]*cossim_weight)
-            sum_scores.append((svd_name, sum_score))
+            sum_scores.append((svd_name[0], sum_score))
             i+=1
             j+=1
         else:
@@ -163,7 +163,7 @@ def json_search(query):
         matches_filtered["first"] = "none"
     else:
         combined_scores = normalize_sim(combine_scores(cossim_score, svd_score))
-
+        print(combined_scores)
         # if input author has no reviews
         if len(combined_scores) == 0:
             return json.dumps({})
@@ -177,7 +177,7 @@ def json_search(query):
         else:
             book = best_book(top[0][0])
             matches_filtered["first"] = (
-                round(100*top[0][1], 1), top[0][0], get_author_genres(top[0][0]), book[0],book[2], bins(round(100*top[0][1], 1)))
+                round(100*top[0][1], 1), top[0][0], get_author_genres(top[0][0]), book[0],book[2], bins(round(top[0][1], 4)))
 
 
         if data[top[1][0]]["book_title"] == []:
@@ -186,7 +186,7 @@ def json_search(query):
         else:
             book = best_book(top[1][0])
             matches_filtered["second"] = (
-                round(100*top[1][1], 1), top[1][0], get_author_genres(top[1][0]), book[0],book[2], bins(round(100*top[0][1], 1)))
+                round(100*top[1][1], 1), top[1][0], get_author_genres(top[1][0]), book[0],book[2], bins(round(top[0][1], 4)))
 
 
         if data[top[2][0]]["book_title"] == []:
@@ -195,7 +195,7 @@ def json_search(query):
         else:
             book = best_book(top[2][0])
             matches_filtered["third"] = (
-                round(100*top[2][1], 1), top[2][0], get_author_genres(top[2][0]), book[0],book[2], bins(round(100*top[0][1], 1)))
+                round(100*top[2][1], 1), top[2][0], get_author_genres(top[2][0]), book[0],book[2], bins(round(top[0][1], 4)))
     matches_filtered_json = json.dumps(matches_filtered)
 
     return matches_filtered_json
