@@ -104,7 +104,7 @@ def get_cossim_authors(data, query):
     cossim = rc.index_search(query_author_word_counts, inv_idx, idf, norms)
     return cossim
 
-def normalize(score_list):
+def normalize_sim(score_list):
     """
     Normalize and sort the outputs alphabetically to be aggregated
     """
@@ -156,13 +156,13 @@ def bins(score):
 
 def json_search(query):
     matches_filtered = {}
-    cossim_score = normalize(get_cossim_authors(data, query.lower()))
-    svd_score = normalize(get_svd_authors(data, query.lower()))
+    cossim_score = normalize_sim(get_cossim_authors(data, query.lower()))
+    svd_score = normalize_sim(get_svd_authors(data, query.lower()))
 
     if len(cossim_score) == 0 or len(svd_score) == 0:
         matches_filtered["first"] = "none"
     else:
-        combined_scores = normalize(combine_scores(cossim_score, svd_score))
+        combined_scores = normalize_sim(combine_scores(cossim_score, svd_score))
 
         # if input author has no reviews
         if len(combined_scores) == 0:
