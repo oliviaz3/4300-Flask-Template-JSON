@@ -170,7 +170,7 @@ def json_search(query):
 
         if data[top[0][0]]["book_title"] == []:
             matches_filtered["first"] = (
-                round(100*top[0][1], 1), top[0][0], get_author_genres(top[0][0]), "unavailable", "unavailable")
+                round(100*top[0][1], 1), top[0][0], get_author_genres(top[0][0]), "unavailable", "unavailable",bins(round(top[0][1], 4)))
         else:
             book = best_book(top[0][0])
             matches_filtered["first"] = (
@@ -179,20 +179,20 @@ def json_search(query):
 
         if data[top[1][0]]["book_title"] == []:
             matches_filtered["second"] = (
-                round(100*top[1][1], 1), top[1][0], get_author_genres(top[1][0]), "unavailable", "unavailable")
+                round(100*top[1][1], 1), top[1][0], get_author_genres(top[1][0]), "unavailable", "unavailable",bins(round(top[1][1], 4)))
         else:
             book = best_book(top[1][0])
             matches_filtered["second"] = (
-                round(100*top[1][1], 1), top[1][0], get_author_genres(top[1][0]), book[0],book[2], bins(round(top[0][1], 4)))
+                round(100*top[1][1], 1), top[1][0], get_author_genres(top[1][0]), book[0],book[2], bins(round(top[1][1], 4)))
 
 
         if data[top[2][0]]["book_title"] == []:
             matches_filtered["third"] = (
-                round(100*top[2][1], 1), top[2][0], get_author_genres(top[2][0]), "unavailable", "unavailable")
+                round(100*top[2][1], 1), top[2][0], get_author_genres(top[2][0]), "unavailable", "unavailable", bins(round(top[2][1], 4)))
         else:
             book = best_book(top[2][0])
             matches_filtered["third"] = (
-                round(100*top[2][1], 1), top[2][0], get_author_genres(top[2][0]), book[0],book[2], bins(round(top[0][1], 4)))
+                round(100*top[2][1], 1), top[2][0], get_author_genres(top[2][0]), book[0],book[2], bins(round(top[2][1], 4)))
     matches_filtered_json = json.dumps(matches_filtered)
 
     return matches_filtered_json
