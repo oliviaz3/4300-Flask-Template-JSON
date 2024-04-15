@@ -112,8 +112,11 @@ def normalize(score_list):
     """
     Normalize and sort the outputs alphabetically to be aggregated
     """
-    divisor = score_list[0][1]
-    scores = [(name, score / divisor) for name, score in score_list]
+    if len(score_list) == 0:
+        return []
+    else:
+        divisor = score_list[0][1]
+        scores = [(name, score / divisor) for name, score in score_list]
     
     return scores
 
@@ -161,7 +164,7 @@ def json_search(query):
     if len(cossim_score) == 0 or len(svd_score) == 0:
         matches_filtered["first"] = "none"
     else:
-        combined_scores = combine_scores(cossim_score, svd_score)
+        combined_scores = normalize(combine_scores(cossim_score, svd_score))
 
         # if input author has no reviews
         if len(combined_scores) == 0:
