@@ -22,8 +22,8 @@ def create_docs(data):
 
 
 
-def closest_author(documents, author_index_in, author_repr_in):
+def closest_author(documents, author_index_in, author_repr_in, k):
   sims = author_repr_in.dot(author_repr_in[author_index_in,:])
-  asort = np.argsort(-sims)
+  asort = np.argsort(-sims)[:k+1]
   return [(documents[i][0],sims[i]) for i in asort[1:]]
 

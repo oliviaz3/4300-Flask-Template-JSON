@@ -161,7 +161,6 @@ def json_search(query):
         matches_filtered["first"] = "none"
     else:
         combined_scores = normalize_sim(combine_scores(cossim_score, svd_score))
-        print(combined_scores)
         # if input author has no reviews
         if len(combined_scores) == 0:
             return json.dumps({})
