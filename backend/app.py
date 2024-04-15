@@ -124,6 +124,7 @@ def combine_scores(svd, cossim, svd_weight = 1, cossim_weight = 1):
     """
     Combine the SVD and the cossim similarity scores into one
     """
+    # Sort alphabetically
     svd = sorted(svd, key=lambda x: x[0])
     cossim = sorted(cossim, key=lambda x: x[0])
 
