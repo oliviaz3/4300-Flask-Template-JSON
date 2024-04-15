@@ -191,7 +191,7 @@ def index_search(
     num = score_func(query_author_word_counts, index, idf)
     for doc_id in num:
         cossim = num[doc_id] / (doc_norms[doc_id] * query_norm)
-        result.append((cossim, doc_id))
+        result.append((doc_id, cossim))
 
-    result = sorted(result, key=lambda x: x[0], reverse=True)
-    return result
+    result = sorted(result, key=lambda x: x[1], reverse=True)
+    return result[1:]

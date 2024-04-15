@@ -103,7 +103,10 @@ def get_cossim_authors(data, query):
     return cossim
 
 def normalize(score_list):
-
+    divisor = score_list[0][1]
+    scores = [(name, score / divisor) for name, score in score_list]
+    
+    return scores
 
 def combine_scores(svd, cossim, svd_weight = 1, cossim_weight = 1):
     """
