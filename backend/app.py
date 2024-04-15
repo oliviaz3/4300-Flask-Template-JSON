@@ -117,7 +117,22 @@ def combine_scores(svd, cossim, svd_weight = 1, cossim_weight = 1):
     """
     Combine the SVD and the cossim similarity scores into one
     """
-    return 
+    sum_scores = []
+    i,j = 0,0
+
+    while i<len(svd) and j<len(cossim):
+        svd_name = svd[i]
+        cossim_name =  cossim[j]
+        if svd_name==cossim_name:
+            sum_score = (svd[i][1]*svd_weight) + (cossim[j][1]*cossim_weight)
+            sum_scores.append((svd_name, sum_score))
+            i+=1
+            j+=1
+        else:
+            j+=1
+
+    result = sorted(sum_scores, key = lambda x: x[1], reverse=True)
+    return result[1:]
 
 
 def json_search(query):
