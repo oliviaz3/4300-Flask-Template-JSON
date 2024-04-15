@@ -71,11 +71,13 @@ def get_author_index(data, query):
         auth_ind = authors.index(query)
     return auth_ind
 
-def get_svd_authors(data, ind):
+def get_svd_authors(data, query):
     """
     Calculates svd and outputs a list of tuples with author name and score
     in descending order based on score. 
     """
+    ind = get_author_index(data, query.lower())
+
     output = []
     # output = [] if author is not in keys
     if ind != -1:
@@ -88,6 +90,26 @@ def get_svd_authors(data, ind):
         for name, score in svd.closest_author(docs, ind, docs_compressed_normed):
             output.append((name, score))
     return output
+
+def get_cossim_authors(data, query):
+    # calculate reviews cossim
+    inv_idx = rc.inverted_index(data)
+    n_authors = len(data.keys())
+    idf = rc.compute_idf(inv_idx, n_authors)
+    norms = rc.compute_doc_norms(inv_idx, idf)
+    query_author_word_counts = rc.author_word_counts(data, query.lower())
+    cossim = rc.index_search(query_author_word_counts, inv_idx, idf, norms)
+
+    return cossim
+
+def normalize(score_list):
+
+
+def combine_scores(svd, cossim, svd_weight = 1, cossim_weight = 1):
+    """
+    Combine the SVD and the cossim similarity scores into one
+    """
+    return 
 
 
 def json_search(query):
