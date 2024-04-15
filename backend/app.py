@@ -139,7 +139,7 @@ def combine_scores(svd, cossim, svd_weight = 1, cossim_weight = 1):
             j+=1
 
     result = sorted(sum_scores, key = lambda x: x[1], reverse=True)
-    return result[1:]
+    return result
 
 
 def json_search(query):
