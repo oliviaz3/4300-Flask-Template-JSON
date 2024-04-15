@@ -77,6 +77,7 @@ def get_svd_authors(data, query):
     in descending order based on score. 
     """
     ind = get_author_index(data, query.lower())
+    print(ind)
     if ind == -1:
         return[]
     else:
@@ -86,7 +87,8 @@ def get_svd_authors(data, query):
         docs_compressed, s, words_compressed = svds(td_matrix, k=40)
         words_compressed = words_compressed.transpose()
         docs_compressed_normed = normalize(docs_compressed)
-    return svd.closest_author(docs, ind, docs_compressed_normed)
+        output = svd.closest_author(docs, ind, docs_compressed_normed)
+    return output
 
 def get_cossim_authors(data, query):
     # calculate reviews cossim
@@ -100,13 +102,13 @@ def get_cossim_authors(data, query):
         return []
     
     cossim = rc.index_search(query_author_word_counts, inv_idx, idf, norms)
-
     return cossim
 
 def normalize(score_list):
     """
     Normalize and sort the outputs alphabetically to be aggregated
     """
+    print(score_list)
     if len(score_list) == 0:
         return []
     else:
