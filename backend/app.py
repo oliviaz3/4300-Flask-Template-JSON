@@ -114,15 +114,16 @@ def normalize(score_list):
     """
     divisor = score_list[0][1]
     scores = [(name, score / divisor) for name, score in score_list]
-
-    sort_list = sorted(scores, key=lambda x: x[0])
     
-    return sort_list
+    return scores
 
 def combine_scores(svd, cossim, svd_weight = 1, cossim_weight = 1):
     """
     Combine the SVD and the cossim similarity scores into one
     """
+    svd = sorted(svd, key=lambda x: x[0])
+    cossim = sorted(cossim, key=lambda x: x[0])
+
     sum_scores = []
     i,j = 0,0
 
@@ -160,7 +161,7 @@ def json_search(query):
     if len(cossim_score) == 0 or len(svd_score) == 0:
         matches_filtered["first"] = "none"
     else:
-        combined_scores = normalize(combine_scores(cossim_score, svd_score))
+        combined_scores = combine_scores(cossim_score, svd_score)
 
         # if input author has no reviews
         if len(combined_scores) == 0:
