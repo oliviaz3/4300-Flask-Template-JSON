@@ -77,7 +77,6 @@ def get_svd_authors(data, query):
     in descending order based on score. 
     """
     ind = get_author_index(data, query.lower())
-    print(ind)
     if ind == -1:
         return[]
     else:
@@ -108,7 +107,6 @@ def normalize_sim(score_list):
     """
     Normalize and sort the outputs alphabetically to be aggregated
     """
-    print(score_list)
     if len(score_list) == 0:
         return []
     else:
