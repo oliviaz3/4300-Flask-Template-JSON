@@ -1,7 +1,9 @@
 import json
 import os
 from flask import Flask, render_template, request
-from flask_cors import CORS
+# from flask_cors import CORS
+# from fuzzywuzzy import fuzz
+# from lodash import debounce
 from helpers.MySQLDatabaseHandler import MySQLDatabaseHandler
 import pandas as pd
 import reviews_cossim as rc
@@ -31,15 +33,16 @@ with open(json_file_path, 'r') as file:
     # reviews_df = pd.DataFrame(data['reviews'])
 
 app = Flask(__name__)
-CORS(app)
 
 # Sample search using json with pandas
 # query rn is the exact author name
+
 
 def best_book(author):
     """
     Returns (book title, rating, genre) of the highest rated book for [author]
     """
+
     titles = []
     ratings = []
     genres = []
@@ -49,7 +52,8 @@ def best_book(author):
         ratings.append(book[title]["rating"])
         genres.append(book[title]["genre"])
     best_ind = np.argmax(ratings)
-    return titles[best_ind],ratings[best_ind], genres[best_ind]
+    return titles[best_ind], ratings[best_ind], genres[best_ind]
+
 
 def get_author_genres(author):
     genres = data[author]["author_genres"]
@@ -59,6 +63,7 @@ def get_author_genres(author):
     # add space after commas to separate genres
     genres = re.sub(r'(?<=[,])(?=[^\s])', r' ', genres)
     return genres
+
 
 def get_author_index(data, query):
     """
@@ -71,6 +76,7 @@ def get_author_index(data, query):
         auth_ind = authors.index(query)
     return auth_ind
 
+
 def get_svd_authors(data, query):
     """
     Calculates svd and outputs a list of tuples with author name and score
@@ -78,16 +84,18 @@ def get_svd_authors(data, query):
     """
     ind = get_author_index(data, query.lower())
     if ind == -1:
-        return[]
+        return []
     else:
         docs = svd.create_docs(data)
-        vectorizer = TfidfVectorizer(max_df = .7, min_df = 1)
+        vectorizer = TfidfVectorizer(max_df=.7, min_df=1)
         td_matrix = vectorizer.fit_transform([x[1] for x in docs])
         docs_compressed, s, words_compressed = svds(td_matrix, k=40)
         words_compressed = words_compressed.transpose()
         docs_compressed_normed = normalize(docs_compressed)
-        output = svd.closest_author(docs, ind, docs_compressed_normed, len(data.keys()))
+        output = svd.closest_author(
+            docs, ind, docs_compressed_normed, len(data.keys()))
     return output
+
 
 def get_cossim_authors(data, query):
     # calculate reviews cossim
@@ -99,9 +107,10 @@ def get_cossim_authors(data, query):
 
     if (len(query_author_word_counts) == 0):
         return []
-    
+
     cossim = rc.index_search(query_author_word_counts, inv_idx, idf, norms)
     return cossim
+
 
 def normalize_sim(score_list):
     """
@@ -112,10 +121,11 @@ def normalize_sim(score_list):
     else:
         divisor = score_list[0][1]
         scores = [(name, score / divisor) for name, score in score_list]
-    
+
     return scores
 
-def combine_scores(svd, cossim, svd_weight = 1, cossim_weight = 1):
+
+def combine_scores(svd, cossim, svd_weight=1, cossim_weight=1):
     """
     Combine the SVD and the cossim similarity scores into one
     """
@@ -124,33 +134,71 @@ def combine_scores(svd, cossim, svd_weight = 1, cossim_weight = 1):
     cossim = sorted(cossim, key=lambda x: x[0])
 
     sum_scores = []
-    i,j = 0,0
+    i, j = 0, 0
 
-    while i<len(svd) and j<len(cossim):
+    while i < len(svd) and j < len(cossim):
         svd_name = svd[i]
-        cossim_name =  cossim[j]
-        if svd_name[0]==cossim_name[0]:
+        cossim_name = cossim[j]
+        if svd_name[0] == cossim_name[0]:
             sum_score = (svd[i][1]*svd_weight) + (cossim[j][1]*cossim_weight)
             sum_scores.append((svd_name[0], sum_score))
-            i+=1
-            j+=1
+            i += 1
+            j += 1
         else:
-            j+=1
+            j += 1
 
-    result = sorted(sum_scores, key = lambda x: x[1], reverse=True)
+    result = sorted(sum_scores, key=lambda x: x[1], reverse=True)
     return result
 
+
 def bins(score):
-  score_label = None
+    score_label = None
 
-  if score <= 0.3333:
-    score_label = "Low"
-  elif score > 0.3333 and score <= 0.6666:
-    score_label = "Medium"
-  elif score > 0.6666 and score <=1:
-    score_label = "High"
+    if score <= 0.3333:
+        score_label = "Low"
+    elif score > 0.3333 and score <= 0.6666:
+        score_label = "Medium"
+    elif score > 0.6666 and score <= 1:
+        score_label = "High"
 
-  return score_label
+    return score_label
+
+
+def edit_distance(str1, str2, m, n):
+    dp = [[0 for x in range(n + 1)] for x in range(m + 1)]
+    for i in range(m + 1):
+        dp[i][0] = i
+
+    for j in range(n + 1):
+        dp[0][j] = j
+
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if str1[i-1] == str2[j-1]:
+                dp[i][j] = dp[i-1][j-1]
+            else:
+                dp[i][j] = 1 + min(dp[i][j-1], dp[i-1][j], dp[i-1][j-1])
+
+    return dp[m][n]
+
+
+@app.route("/search_authors")
+def search_authors_route():
+    query = request.args.get("query")
+    similar_authors = search_authors(query, data.keys())
+    return json.dumps(similar_authors)
+
+
+def search_authors(query, authors):
+    filtered_authors = []
+    for author in authors:
+        distance = edit_distance(
+            query.lower(), author.lower(), len(query), len(author))
+        if distance <= 20:  # You can adjust this threshold as needed
+            filtered_authors.append({"name": author, "distance": distance})
+    filtered_authors.sort(key=lambda x: x["distance"])
+    return filtered_authors[:5]
+
 
 def json_search(query):
     matches_filtered = {}
@@ -159,8 +207,10 @@ def json_search(query):
 
     if len(cossim_score) == 0 or len(svd_score) == 0:
         matches_filtered["first"] = "none"
+
     else:
-        combined_scores = normalize_sim(combine_scores(cossim_score, svd_score))
+        combined_scores = normalize_sim(
+            combine_scores(cossim_score, svd_score))
         # if input author has no reviews
         if len(combined_scores) == 0:
             return json.dumps({})
@@ -170,21 +220,19 @@ def json_search(query):
 
         if data[top[0][0]]["book_title"] == []:
             matches_filtered["first"] = (
-                round(100*top[0][1], 1), top[0][0], get_author_genres(top[0][0]), "unavailable", "unavailable",bins(round(top[0][1], 4)))
+                round(100*top[0][1], 1), top[0][0], get_author_genres(top[0][0]), "unavailable", "unavailable", bins(round(top[0][1], 4)))
         else:
             book = best_book(top[0][0])
             matches_filtered["first"] = (
-                round(100*top[0][1], 1), top[0][0], get_author_genres(top[0][0]), book[0],book[2], bins(round(top[0][1], 4)))
-
+                round(100*top[0][1], 1), top[0][0], get_author_genres(top[0][0]), book[0], book[2], bins(round(top[0][1], 4)))
 
         if data[top[1][0]]["book_title"] == []:
             matches_filtered["second"] = (
-                round(100*top[1][1], 1), top[1][0], get_author_genres(top[1][0]), "unavailable", "unavailable",bins(round(top[1][1], 4)))
+                round(100*top[1][1], 1), top[1][0], get_author_genres(top[1][0]), "unavailable", "unavailable", bins(round(top[1][1], 4)))
         else:
             book = best_book(top[1][0])
             matches_filtered["second"] = (
-                round(100*top[1][1], 1), top[1][0], get_author_genres(top[1][0]), book[0],book[2], bins(round(top[1][1], 4)))
-
+                round(100*top[1][1], 1), top[1][0], get_author_genres(top[1][0]), book[0], book[2], bins(round(top[1][1], 4)))
 
         if data[top[2][0]]["book_title"] == []:
             matches_filtered["third"] = (
@@ -192,7 +240,7 @@ def json_search(query):
         else:
             book = best_book(top[2][0])
             matches_filtered["third"] = (
-                round(100*top[2][1], 1), top[2][0], get_author_genres(top[2][0]), book[0],book[2], bins(round(top[2][1], 4)))
+                round(100*top[2][1], 1), top[2][0], get_author_genres(top[2][0]), book[0], book[2], bins(round(top[2][1], 4)))
     matches_filtered_json = json.dumps(matches_filtered)
 
     return matches_filtered_json
