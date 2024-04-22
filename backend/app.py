@@ -206,41 +206,42 @@ def json_search(query):
     svd_score = normalize_sim(get_svd_authors(data, query.lower()))
 
     if len(cossim_score) == 0 or len(svd_score) == 0:
-        matches_filtered["first"] = "none"
+        matches_filtered[1] = "none"
 
     else:
+        # (name, score)
         combined_scores = normalize_sim(
             combine_scores(cossim_score, svd_score))
         # if input author has no reviews
         if len(combined_scores) == 0:
             return json.dumps({})
 
-        # filter out top 3 authors, excluding self
-        top = combined_scores[0:3]
+        # filter out top 10 authors, excluding self
+        top = combined_scores[0:10]
 
-        if data[top[0][0]]["book_title"] == []:
-            matches_filtered["first"] = (
-                round(100*top[0][1], 1), top[0][0], get_author_genres(top[0][0]), "unavailable", "unavailable", bins(round(top[0][1], 4)))
-        else:
-            book = best_book(top[0][0])
-            matches_filtered["first"] = (
-                round(100*top[0][1], 1), top[0][0], get_author_genres(top[0][0]), book[0], book[2], bins(round(top[0][1], 4)))
+        for idx,tup in enumerate(top):
+            if data[tup[0]]["book_title"] == []:
+                #(score, name, genres, book title, book genre, similarity rating)
+                matches_filtered[idx] = (
+                round(100*tup[1], 1), tup[0], 
+                get_author_genres(tup[0]), 
+                "unavailable", 
+                "unavailable", 
+                bins(round(tup[1], 4))
+                )
 
-        if data[top[1][0]]["book_title"] == []:
-            matches_filtered["second"] = (
-                round(100*top[1][1], 1), top[1][0], get_author_genres(top[1][0]), "unavailable", "unavailable", bins(round(top[1][1], 4)))
-        else:
-            book = best_book(top[1][0])
-            matches_filtered["second"] = (
-                round(100*top[1][1], 1), top[1][0], get_author_genres(top[1][0]), book[0], book[2], bins(round(top[1][1], 4)))
+            else:
+                book = best_book(tup[0])
+                #(score, name, genres, book title, book genre, similarity rating)
+                matches_filtered[idx] = (
+                    round(100*tup[1], 1), 
+                    tup[0], 
+                    get_author_genres(tup[0]), 
+                    book[0], 
+                    book[2], 
+                    bins(round(tup[1], 4))
+                    )
 
-        if data[top[2][0]]["book_title"] == []:
-            matches_filtered["third"] = (
-                round(100*top[2][1], 1), top[2][0], get_author_genres(top[2][0]), "unavailable", "unavailable", bins(round(top[2][1], 4)))
-        else:
-            book = best_book(top[2][0])
-            matches_filtered["third"] = (
-                round(100*top[2][1], 1), top[2][0], get_author_genres(top[2][0]), book[0], book[2], bins(round(top[2][1], 4)))
     matches_filtered_json = json.dumps(matches_filtered)
 
     return matches_filtered_json

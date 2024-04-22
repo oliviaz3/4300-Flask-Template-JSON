@@ -13,15 +13,14 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <body>
-    <div class="full-body-container">
+    <div id="container" class="full-body-container">
         <div class="top-text">
             <div class="google-colors">
                 <h3 id="google-0-2">Author Explorer</h3>
             </div>
             <div class="input-box" onclick="sendFocus()">
                 <img src="{{ url_for('static', filename='images/mag.png') }}" />
-                <input placeholder="Search for an Author " id="filter-text-val"
-                    onkeyup="filterText()">
+                <input placeholder="Search for an Author " id="filter-text-val" onkeyup="filterText()">
             </div>
         </div>
 
@@ -33,52 +32,28 @@
     </div>
 
     <script>
-        function answerBoxTemplate(first, second, third) {
+        function answerBoxTemplate(data) {
             // (score, author name, author genres, book title, book genre)
-            content = `<div class='rec-box'>
+            content = `<div class='rec-box'>`
+
+            Object.entries(data).forEach(author => {
+                author = author[1]
+                content += `
                 <button type="button" class="collapsible"> 
                     <i class="fa fa-plus"></i>
-                    ${first[1]}
-                    
+                    ${author[1]}
                 </button>
-
+                
                 <div class="content">
                     <p class='episode-desc'>
-                    Score: ${first[0]}<br>
-                    Similarity: ${first[5]}<br>
-                    Author Genres: ${first[2]}<br>
-                    Highest Rated Book: ${first[3]} (Genre: ${first[4]})
+                    Score: ${author[0]}<br>
+                    Similarity: ${author[5]}<br>
+                    Author Genres: ${author[2]}<br>
+                    Highest Rated Book: ${author[3]} (Genre: ${author[4]})
                     </p>
-                </div>
-
-                <button type="button" class="collapsible">
-                    <i class="fa fa-plus"></i>
-                    ${second[1]}
-                </button>
-
-                <div class="content">
-                    <p class='episode-desc'>
-                    Score: ${second[0]}<br>
-                    Similarity: ${second[5]}<br>
-                    Author Genres: ${second[2]}<br>
-                    Highest Rated Book: ${second[3]} (Genre: ${second[4]})
-                    </p>
-                </div>
-
-                <button type="button" class="collapsible">
-                    <i class="fa fa-plus"></i>
-                    ${third[1]}
-                </button>
-
-                <div class="content">
-                    <p class='episode-desc'>
-                    Score: ${third[0]}<br>
-                    Similarity: ${third[5]}<br>
-                    Author Genres: ${third[2]}<br>
-                    Highest Rated Book: ${third[3]} (Genre: ${third[4]})
-                    </p>
-                </div>
-            </div>`
+                </div>`
+            })
+            content += `</div>`
             return content
 
         }
@@ -140,11 +115,12 @@
                     let tempDiv = document.createElement("div")
                     // if data != {} 
                     if (Object.keys(data).length) {
-                        if (data["first"] == "none") {
+                        console.log(data)
+                        if (data[1] == "none") {
                             tempDiv.innerHTML = authorUnavailable()
                         }
                         else {
-                            tempDiv.innerHTML = answerBoxTemplate(data["first"], data["second"], data["third"])
+                            tempDiv.innerHTML = answerBoxTemplate(data)
                         }
                     }
                     else {
@@ -154,6 +130,7 @@
                     showCollapsible();
                     hideLoader()
                 })
+            document.getElementById("container").style.height = "300%"
         }
 
         // function filterText() {
@@ -170,17 +147,17 @@
         }
 
         function sendRequest(query) {
-        fetch("/search_authors?query=" + query)
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                updateDropdownList(data);
-            })
+            fetch("/search_authors?query=" + query)
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                    updateDropdownList(data);
+                })
         }
 
         function updateDropdownList(authors) {
             var dropdown = document.getElementById("author-dropdown");
-            dropdown.innerHTML = ""; 
+            dropdown.innerHTML = "";
             for (var i = 0; i < Math.min(authors.length, 5); i++) {
                 var option = document.createElement("option");
                 option.value = authors[i].name;
@@ -190,7 +167,7 @@
         }
 
 
-        document.getElementById("filter-text-val").addEventListener("keyup", function(event) {
+        document.getElementById("filter-text-val").addEventListener("keyup", function (event) {
             if (event.keyCode == 13) {
                 var query = document.getElementById("filter-text-val").value;
                 sendRequest(query);
@@ -198,8 +175,8 @@
 
             }
         });
-        
-        document.getElementById("author-dropdown").addEventListener("change", function(event) {
+
+        document.getElementById("author-dropdown").addEventListener("change", function (event) {
             var selectedAuthor = document.getElementById("author-dropdown").value;
             document.getElementById("filter-text-val").value = selectedAuthor;
             sendRequest(selectedAuthor);
