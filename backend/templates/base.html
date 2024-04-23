@@ -26,6 +26,16 @@
 
         <select id="author-dropdown" onchange="selectAuthor()"></select>
 
+        <div id="instruction-box" class="instruction-box">
+            <p class="instruction">
+                Type in the full name of an author and select from the dropdown menu if needed.
+                <br>
+                Then press "Enter"
+                <br><br>
+                10 similar authors will be displayed!
+            </p>
+        </div>
+
         <div id="loader" class="loader"></div>
 
         <div id="answer-box"></div>
@@ -34,8 +44,16 @@
     <script>
         function answerBoxTemplate(data) {
             // (score, author name, author genres, book title, book genre)
-            content = `<div class='rec-box'>`
+            query_author = data["self"]
+            content = `<div class='rec-box'>
+                    <p class='episode-desc'>
+                    ${query_author[1]}<br>
+                    Author Genres: ${query_author[2]}<br>
+                    Highest Rated Book: ${query_author[3]} (Genre: ${query_author[4]})
+                    </p>`
 
+            // delete query from data
+            delete data["self"]
             Object.entries(data).forEach(author => {
                 author = author[1]
                 content += `

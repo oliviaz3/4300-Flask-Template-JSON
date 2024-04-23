@@ -219,6 +219,29 @@ def json_search(query):
         # filter out top 10 authors, excluding self
         top = combined_scores[0:10]
 
+        # add in self 
+        query_author = query.lower()
+        if data[query_author.lower()]["book_title"] == []:
+            matches_filtered["self"] = (
+                100, 
+                query_author,
+                get_author_genres(query_author.lower()), 
+                "unavailable", 
+                "unavailable", 
+                bins(100)
+                )
+        else:
+            book = best_book(query_author)
+            #(score, name, genres, book title, book genre, similarity rating)
+            matches_filtered["self"] = (
+                100, 
+                query_author, 
+                get_author_genres(query_author), 
+                book[0], 
+                book[2], 
+                100
+                )
+
         for idx,tup in enumerate(top):
             if data[tup[0]]["book_title"] == []:
                 #(score, name, genres, book title, book genre, similarity rating)
@@ -229,7 +252,6 @@ def json_search(query):
                 "unavailable", 
                 bins(round(tup[1], 4))
                 )
-
             else:
                 book = best_book(tup[0])
                 #(score, name, genres, book title, book genre, similarity rating)
