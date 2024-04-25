@@ -113,6 +113,7 @@
     font-size: 16px;
     border: none;
     outline: 0;
+    color: #2E2D04;
 }
 
 #answer-box {
@@ -142,6 +143,20 @@ input {
     color: #2E2D04;
     font-size: 18px;
     font-weight: bold;
+    margin-top: 5px
+}
+
+.author-select {
+    font-family: 'Lora', sans-serif;
+    color: #2E2D04;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    width: 550px;
+    height: 30px;
+    text-align: left;
+    background-color: #d5c7ac;
+    border: 1.5px solid #521A16;
 }
 
 .collapsible {
