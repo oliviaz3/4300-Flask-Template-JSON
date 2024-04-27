@@ -33,7 +33,6 @@ app = Flask(__name__)
 
 # Sample search using json with pandas
 
-print(data.keys())
 
 
 def best_book(author):
@@ -75,68 +74,73 @@ def get_author_index(data, query):
     return auth_ind
 
 
-def combine_author_reviews(data, author1, author2):
-    """
-    Combine the reviews of two authors into a single set of documents.
-    """
-    combined_reviews = []
-    combined_reviews.extend(data[author1]["reviews"])
-    combined_reviews.extend(data[author2]["reviews"])
-    return
-
-
-def get_svd_authors(data, query_authors):
-    """
-    Calculates SVD and outputs a list of tuples with author name and score
-    in descending order based on score. 
-    """
-    combined_documents = combine_author_reviews(data, query_authors)
-
-    vectorizer = TfidfVectorizer(max_df=0.7, min_df=1)
-    td_matrix = vectorizer.fit_transform([x[1] for x in combined_documents])
-    docs_compressed, _, _ = svds(td_matrix, k=40)
-    docs_compressed = normalize(docs_compressed)
-
-    # Get the SVD representation of each author's combined documents
-    author_indices = [get_author_index(
-        data, author.lower()) for author in query_authors]
-    author_reprs = [docs_compressed[author_index]
-                    for author_index in author_indices]
-
-    if len(author_indices) == 0:
-        return []
-    similarity_scores = []
-    for i, author_repr in enumerate(author_reprs):
-        for j, other_author_repr in enumerate(author_reprs):
-            if i != j:  # Skip self-comparison
-                similarity_score = np.dot(author_repr, other_author_repr)
-                similarity_scores.append(
-                    (query_authors[i], query_authors[j], similarity_score))
-
-    # Sort the similarity scores in descending order
-    similarity_scores.sort(key=lambda x: x[2], reverse=True)
-
-    return similarity_scores
-
-
-# def get_svd_authors(data, query):
+# def combine_author_reviews(data, author1, author2):
 #     """
-#     Calculates svd and outputs a list of tuples with author name and score
-#     in descending order based on score.
+#     Combine the reviews of two authors into a single set of documents.
 #     """
-#     ind = get_author_index(data, query.lower())
-#     if ind == -1:
+#     combined_reviews = []
+#     documents = []
+#     for name in data:
+#         review_text = ""
+#         for tok in data[name]["reviews"]:
+#             for word in tok:
+#                 review_text += (word + " ")
+#         documents.append((name, review_text))
+
+
+# def get_svd_authors(data, query_authors):
+#     """
+#     Calculates SVD and outputs a list of tuples with author name and score
+#     in descending order based on score. 
+#     """
+#     combined_documents = combine_author_reviews(data, query_authors[0], query_authors[1])
+#     print(combined_documents)
+
+#     vectorizer = TfidfVectorizer(max_df=0.7, min_df=1)
+#     td_matrix = vectorizer.fit_transform([x[1] for x in combined_documents])
+#     docs_compressed, _, _ = svds(td_matrix, k=40)
+#     docs_compressed = normalize(docs_compressed)
+
+#     # Get the SVD representation of each author's combined documents
+#     author_indices = [get_author_index(
+#         data, author.lower()) for author in query_authors]
+#     author_reprs = [docs_compressed[author_index]
+#                     for author_index in author_indices]
+
+#     if len(author_indices) == 0:
 #         return []
-#     else:
-#         docs = svd.create_docs(data)
-#         vectorizer = TfidfVectorizer(max_df=.7, min_df=1)
-#         td_matrix = vectorizer.fit_transform([x[1] for x in docs])
-#         docs_compressed, s, words_compressed = svds(td_matrix, k=40)
-#         words_compressed = words_compressed.transpose()
-#         docs_compressed_normed = normalize(docs_compressed)
-#         output = svd.closest_author(
-#             docs, ind, docs_compressed_normed, len(data.keys()))
-#     return output
+#     similarity_scores = []
+#     for i, author_repr in enumerate(author_reprs):
+#         for j, other_author_repr in enumerate(author_reprs):
+#             if i != j:  # Skip self-comparison
+#                 similarity_score = np.dot(author_repr, other_author_repr)
+#                 similarity_scores.append(
+#                     (query_authors[i], query_authors[j], similarity_score))
+
+#     # Sort the similarity scores in descending order
+#     similarity_scores.sort(key=lambda x: x[2], reverse=True)
+
+#     return similarity_scores
+
+
+def get_svd_authors(data, query):
+    """
+    Calculates svd and outputs a list of tuples with author name and score
+    in descending order based on score.
+    """
+    ind = get_author_index(data, query.lower())
+    if ind == -1:
+        return []
+    else:
+        docs = svd.create_docs(data)
+        vectorizer = TfidfVectorizer(max_df=.7, min_df=1)
+        td_matrix = vectorizer.fit_transform([x[1] for x in docs])
+        docs_compressed, s, words_compressed = svds(td_matrix, k=40)
+        words_compressed = words_compressed.transpose()
+        docs_compressed_normed = normalize(docs_compressed)
+        output = svd.closest_author(
+        docs, ind, docs_compressed_normed, len(data.keys()))
+    return output
 
 
 def get_cossim_authors(data, query1, query2):
@@ -255,16 +259,16 @@ def combine_reviews(authors_data):
 
 
 def json_search(query1, query2):
-
     matches_filtered = {}
 
     if query2:
         cossim_score = get_cossim_authors(data, query1.lower(), query2.lower())
     else:
         cossim_score = get_cossim_authors(data, query1.lower(), None)
+    
 
     svd_score = normalize_sim(get_svd_authors(
-        data, [query1.lower(), query2.lower()]))
+        data, query1))
 
     if len(cossim_score) == 0 or len(svd_score) == 0:
         matches_filtered[1] = "none"
@@ -360,8 +364,9 @@ def home():
 
 @app.route("/episodes")
 def episodes_search():
-    text = request.args.get("title")
-    return json_search(text)
+    authone = request.args.get("authorone")
+    authtwo = request.args.get("authortwo")
+    return json_search(authone, authtwo)
 
 
 if 'DB_NAME' not in os.environ:
