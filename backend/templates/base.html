@@ -1,3 +1,6 @@
+
+
+
 <!doctype html>
 <title>{% block title %}{% endblock %} - Flaskr</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
@@ -8,8 +11,7 @@
 <link href='https://fonts.googleapis.com/css?family=Playfair Display' rel='stylesheet'>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lora" rel="stylesheet">
-<!-- Add icon library -->
+<link href="https://fonts.googleapis.com/css2?family=Lora" rel="stylesheet"> 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <body>
@@ -18,13 +20,23 @@
             <div class="google-colors">
                 <h3 id="google-0-2">Author Explorer</h3>
             </div>
+
             <div class="input-box" onclick="sendFocus()">
                 <img src="{{ url_for('static', filename='images/mag.png') }}" />
                 <input placeholder="Search for an Author " id="filter-text-val" onkeyup="filterText()">
             </div>
+            <select id="author-dropdown" class="author-select" onchange="selectAuthor()"></select>
+
+            <div class="input-box2" onclick="sendFocus2()">
+                <img src="{{ url_for('static', filename='images/mag.png') }}" />
+                <input placeholder="Search for another Author" id="filter-text-val2" onkeyup="filterText2()">
+            </div>
+
+            <select id="author-dropdown2" class="author-select2" onchange="selectAuthor2()"></select>
+
         </div>
 
-        <select id="author-dropdown" class="author-select" onchange="selectAuthor()"></select>
+
 
         <div id="instruction-box" class="instruction-box">
             <p class="instruction">
@@ -42,6 +54,8 @@
     </div>
 
     <script>
+
+
         function answerBoxTemplate(data) {
             // (score, author name, author genres, book title, book genre)
             query_author = data["self"]
@@ -91,6 +105,10 @@
         function sendFocus() {
             document.getElementById('filter-text-val').focus()
         }
+        function sendFocus2() {
+            document.getElementById('filter-text-val2').focus()
+        }
+
 
         function showLoader() {
             document.getElementById("loader").style.display = "block";
@@ -151,12 +169,6 @@
             document.getElementById("container").style.height = "300%"
         }
 
-        // function filterText() {
-        //     // only perform search if 'Enter' key is pressed
-        //     if (event.keyCode == 13) {
-        //         showContent()
-        //     }
-        // }
         function filterText() {
             var query = document.getElementById("filter-text-val").value;
             if (query.length >= 3) { // Only send request if at least 3 characters are typed
@@ -164,12 +176,29 @@
             }
         }
 
+        function filterText2() {
+            var query = document.getElementById("filter-text-val2").value;
+            if (query.length >= 3) { // Only send request if at least 3 characters are typed
+                sendRequest2(query);
+            }
+        }
+
+
         function sendRequest(query) {
             fetch("/search_authors?query=" + query)
                 .then((response) => response.json())
                 .then((data) => {
                     console.log(data);
                     updateDropdownList(data);
+                })
+        }
+
+        function sendRequest2(query) {
+            fetch("/search_authors?query=" + query)
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                    updateDropdownList2(data);
                 })
         }
 
@@ -184,6 +213,16 @@
             }
         }
 
+        function updateDropdownList2(author) {
+            var dropdown = document.getElementById("author-dropdown2");
+            dropdown.innerHTML = "";
+            for (var i = 0; i < Math.min(author.length, 5); i++) {
+                var option = document.createElement("option");
+                option.value = author[i].name;
+                option.text = author[i].name;
+                dropdown.appendChild(option);
+            }
+        }
 
         document.getElementById("filter-text-val").addEventListener("keyup", function (event) {
             if (event.keyCode == 13) {
@@ -194,10 +233,25 @@
             }
         });
 
+        document.getElementById("filter-text-val2").addEventListener("keyup", function (event) {
+            if (event.keyCode == 13) {
+                var query = document.getElementById("filter-text-val2").value;
+                sendRequest2(query);
+                showContent2();
+
+            }
+        });
+
         document.getElementById("author-dropdown").addEventListener("change", function (event) {
             var selectedAuthor = document.getElementById("author-dropdown").value;
             document.getElementById("filter-text-val").value = selectedAuthor;
             sendRequest(selectedAuthor);
+        });
+
+        document.getElementById("author-dropdown2").addEventListener("change", function (event) {
+            var selectedAuthor = document.getElementById("author-dropdown2").value;
+            document.getElementById("filter-text-val2").value = selectedAuthor;
+            sendRequest2(selectedAuthor);
         });
 
 
@@ -207,5 +261,22 @@
             sendRequest(selectedAuthor); // Start searching for similar authors
         }
 
+        function selectAuthor2() {
+             var selectedAuthor2 = document.getElementById("author-dropdown2").value;
+             document.getElementById("filter-text-val2").value = selectedAuthor;
+             sendRequest2(selectedAuthor2);
+         }
+
+        // function sendRequest2(query1, query2) {
+        //     fetch("/search_authors?query1=" + query1 + "&query2=" + query2) // Pass both query1 and query2 as parameters
+        //         .then((response) => response.json())
+        //         .then((data) => {
+        //             console.log(data);
+        //             updateDropdownList2(data);
+        //         })
+        // }
+
+
+
     </script>
-</body>
+</body> 

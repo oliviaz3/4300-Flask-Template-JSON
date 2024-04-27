@@ -11,19 +11,18 @@ from scipy.sparse.linalg import svds
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import normalize
 
-def create_docs(data):
-  documents = []
-  for name in data:
-    review_text = ""
-    for tok in data[name]["reviews"]:
-      review_text += (tok + " ")
-    documents.append((name, review_text))
-  return documents
 
+def create_docs(data):
+    documents = []
+    for name in data:
+        review_text = ""
+        for tok in data[name]["reviews"]:
+            review_text += (tok + " ")
+        documents.append((name, review_text))
+    return documents
 
 
 def closest_author(documents, author_index_in, author_repr_in, k):
-  sims = author_repr_in.dot(author_repr_in[author_index_in,:])
-  asort = np.argsort(-sims)[:k+1]
-  return [(documents[i][0],sims[i]) for i in asort[1:]]
-
+    sims = author_repr_in.dot(author_repr_in[author_index_in, :])
+    asort = np.argsort(-sims)[:k+1]
+    return [(documents[i][0], sims[i]) for i in asort[1:]]

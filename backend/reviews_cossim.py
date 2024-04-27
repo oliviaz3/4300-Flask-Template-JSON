@@ -143,7 +143,7 @@ def accumulate_dot_scores(author_word_counts, inv_idx: dict, idf: dict) -> dict:
 
 
 def index_search(
-    query_author_word_counts: str,
+    query_author_word_counts,
     index: dict,
     idf,
     doc_norms,
