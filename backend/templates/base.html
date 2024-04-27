@@ -31,6 +31,8 @@
 
             <select id="author-dropdown2" class="author-select2" onchange="selectAuthor2()"></select>
 
+            <button onclick="showContent()">Search</button>
+
         </div>
 
 
@@ -228,24 +230,6 @@
                 dropdown.appendChild(option);
             }
         }
-
-        document.getElementById("filter-text-val").addEventListener("keyup", function (event) {
-            if (event.keyCode == 13) {
-                var query = document.getElementById("filter-text-val").value;
-                sendRequest(query);
-                showContent();
-
-            }
-        });
-
-        document.getElementById("filter-text-val2").addEventListener("keyup", function (event) {
-            if (event.keyCode == 13) {
-                var query = document.getElementById("filter-text-val2").value;
-                sendRequest2(query);
-                showContent2();
-
-            }
-        });
 
         document.getElementById("author-dropdown").addEventListener("change", function (event) {
             var selectedAuthor = document.getElementById("author-dropdown").value;
