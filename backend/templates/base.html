@@ -4,7 +4,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Kanit&family=Montserrat&family=Open+Sans:wght@500&display=swap"
-  rel="stylesheet">
+    rel="stylesheet">
 <link href='https://fonts.googleapis.com/css?family=Playfair Display' rel='stylesheet'>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,62 +12,62 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <body>
-  <div id="container" class="full-body-container">
-    <div class="top-text">
-      <div class="google-colors">
-        <h3 id="google-0-2">Author Explorer</h3>
-      </div>
+    <div id="container" class="full-body-container">
+        <div class="top-text">
+            <div class="google-colors">
+                <h3 id="google-0-2">Author Explorer</h3>
+            </div>
 
-      <div class="input-box" onclick="sendFocus()">
-        <img src="{{ url_for('static', filename='images/mag.png') }}" />
-        <input placeholder="Search for an Author " id="filter-text-val" onkeyup="filterText()">
-      </div>
-      <select id="author-dropdown" class="author-select" onchange="selectAuthor()"></select>
+            <div class="input-box" onclick="sendFocus()">
+                <img src="{{ url_for('static', filename='images/mag.png') }}" />
+                <input placeholder="Search for an Author " id="filter-text-val" onkeyup="filterText()">
+            </div>
+            <select id="author-dropdown" class="author-select" onchange="selectAuthor()"></select>
 
-      <div class="input-box2" onclick="sendFocus2()">
-        <img src="{{ url_for('static', filename='images/mag.png') }}" />
-        <input placeholder="Search for another Author" id="filter-text-val2" onkeyup="filterText2()">
-      </div>
+            <div class="input-box2" onclick="sendFocus2()">
+                <img src="{{ url_for('static', filename='images/mag.png') }}" />
+                <input placeholder="Search for another Author" id="filter-text-val2" onkeyup="filterText2()">
+            </div>
 
-      <select id="author-dropdown2" class="author-select2" onchange="selectAuthor2()"></select>
+            <select id="author-dropdown2" class="author-select2" onchange="selectAuthor2()"></select>
 
+        </div>
+
+
+
+        <div id="instruction-box" class="instruction-box">
+            <p class="instruction">
+                Type in the full name of an author and select from the dropdown menu if needed.
+                <br>
+                Then press "Enter"
+                <br><br>
+                10 similar authors will be displayed!
+            </p>
+        </div>
+
+        <div id="loader" class="loader"></div>
+
+        <div id="answer-box"></div>
     </div>
 
+    <script>
 
 
-    <div id="instruction-box" class="instruction-box">
-      <p class="instruction">
-        Type in the full name of an author and select from the dropdown menu if needed.
-        <br>
-        Then press "Enter"
-        <br><br>
-        10 similar authors will be displayed!
-      </p>
-    </div>
-
-    <div id="loader" class="loader"></div>
-
-    <div id="answer-box"></div>
-  </div>
-
-  <script>
-
-
-    function answerBoxTemplate(data) {
-      // (score, author name, author genres, book title, book genre)
-      query_author = data["self"]
-      content = `<div class='rec-box'>
+        function answerBoxTemplate(data) {
+            // (score, author name, author genres, book title, book genre)
+            query_author = data["self"]
+            content = `<div class='rec-box'>
                     <p class='episode-desc'>
                     ${query_author[1]}<br>
                     Author Genres: ${query_author[2]}<br>
                     Highest Rated Book: ${query_author[3]} (Genre: ${query_author[4]})
                     </p>`
 
-      // delete query from data
-      delete data["self"]
-      Object.entries(data).forEach(author => {
-        author = author[1]
-        content += `
+            // delete query from data
+            delete data["self"]
+            Object.entries(data).forEach(author => {
+                author = author[1]
+                content += `
                 <button type="button" class="collapsible"> 
                     <i class="fa fa-plus"></i>
                     ${author[1]}
@@ -81,199 +81,207 @@
                     Highest Rated Book: ${author[3]} (Genre: ${author[4]})
                     </p>
                 </div>`
-      })
-      content += `</div>`
-      return content
+            })
+            content += `</div>`
+            return content
 
-    }
+        }
 
-    function noReviews() {
-      return `<div class=''>
+        function noReviews() {
+            return `<div class=''>
                 <p class='episode-desc'>No reviews to calculate similarity!</p>
             </div>`
-    }
+        }
 
-    function authorUnavailable() {
-      return `<div class=''>
+        function authorUnavailable() {
+            return `<div class=''>
                 <p class='episode-desc'>No data on author. Please try a different author.</p>
             </div>`
-    }
+        }
 
-    function sendFocus() {
-      document.getElementById('filter-text-val').focus()
-    }
-    function sendFocus2() {
-      document.getElementById('filter-text-val2').focus()
-    }
+        function sendFocus() {
+            document.getElementById('filter-text-val').focus()
+        }
+        function sendFocus2() {
+            document.getElementById('filter-text-val2').focus()
+        }
 
 
-    function showLoader() {
-      document.getElementById("loader").style.display = "block";
-    }
-    function hideLoader() {
-      document.getElementById("loader").style.display = "none";
-    }
+        function showLoader() {
+            document.getElementById("loader").style.display = "block";
+        }
+        function hideLoader() {
+            document.getElementById("loader").style.display = "none";
+        }
 
-    function showCollapsible() {
-      var coll = document.getElementsByClassName("collapsible")
-      var i
+        function showCollapsible() {
+            var coll = document.getElementsByClassName("collapsible")
+            var i
 
-      for (i = 0; i < coll.length; i++) {
-        coll[i].addEventListener("click", function () {
-          this.classList.toggle("active");
-          author = this.innerText
-          content = this.nextElementSibling;
-          if (content.style.opacity === "1") {
-            content.style.height = 0;
-            content.style.opacity = 0;
-            this.innerHTML = `<i class="fa fa-plus"></i> ${author}`;
-          } else {
-            content.style.opacity = 1;
-            content.style.height = "auto";
-            this.innerHTML = `<i class="fa fa-minus"></i> ${author}`;
-          }
-        })
-      };
+            for (i = 0; i < coll.length; i++) {
+                coll[i].addEventListener("click", function () {
+                    this.classList.toggle("active");
+                    author = this.innerText
+                    content = this.nextElementSibling;
+                    if (content.style.opacity === "1") {
+                        content.style.height = 0;
+                        content.style.opacity = 0;
+                        this.innerHTML = `<i class="fa fa-plus"></i> ${author}`;
+                    } else {
+                        content.style.opacity = 1;
+                        content.style.height = "auto";
+                        this.innerHTML = `<i class="fa fa-minus"></i> ${author}`;
+                    }
+                })
+            };
 
-    }
+        }
 
-    function showContent() {
-      showLoader()
-      document.getElementById("answer-box").innerHTML = ""
-      console.log(document.getElementById("filter-text-val").value)
-      fetch("/episodes?" + new URLSearchParams({ authorone: document.getElementById("filter-text-val").value, authortwo: document.getElementById("filter-text-val2").value }).toString())
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data)
-          let tempDiv = document.createElement("div")
-          // if data != {} 
-          if (Object.keys(data).length) {
-            console.log(data)
-            if (data[1] == "none") {
-              tempDiv.innerHTML = authorUnavailable()
+        function showContent() {
+            showLoader()
+            document.getElementById("answer-box").innerHTML = ""
+            console.log(document.getElementById("filter-text-val").value)
+            fetch("/episodes?" + new URLSearchParams({ authorone: document.getElementById("filter-text-val").value, authortwo: document.getElementById("filter-text-val2").value }).toString())
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data)
+                    let tempDiv = document.createElement("div")
+                    // if data != {} 
+                    if (Object.keys(data).length) {
+                        console.log(data)
+                        if (data[1] == "none") {
+                            tempDiv.innerHTML = authorUnavailable()
+                        }
+                        else {
+                            tempDiv.innerHTML = answerBoxTemplate(data)
+                        }
+                    }
+                    else {
+                        tempDiv.innerHTML = noReviews()
+                    }
+                    document.getElementById("answer-box").appendChild(tempDiv)
+                    showCollapsible();
+                    hideLoader()
+                })
+            document.getElementById("container").style.height = "300%"
+        }
+
+        function filterText() {
+            var query = document.getElementById("filter-text-val").value;
+            if (query.length >= 3) { // Only send request if at least 3 characters are typed
+                sendRequest(query);
             }
-            else {
-              tempDiv.innerHTML = answerBoxTemplate(data)
+        }
+
+        function filterText2() {
+            var query = document.getElementById("filter-text-val2").value;
+            if (query.length >= 3) { // Only send request if at least 3 characters are typed
+                sendRequest2(query);
             }
-          }
-          else {
-            tempDiv.innerHTML = noReviews()
-          }
-          document.getElementById("answer-box").appendChild(tempDiv)
-          showCollapsible();
-          hideLoader()
-        })
-      document.getElementById("container").style.height = "300%"
-    }
-
-    function filterText() {
-      var query = document.getElementById("filter-text-val").value;
-      if (query.length >= 3) { // Only send request if at least 3 characters are typed
-        sendRequest(query);
-      }
-    }
-
-    function filterText2() {
-      var query = document.getElementById("filter-text-val2").value;
-      if (query.length >= 3) { // Only send request if at least 3 characters are typed
-        sendRequest2(query);
-      }
-    }
+        }
 
 
-    function sendRequest(query) {
-      fetch("/search_authors?query=" + query)
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          updateDropdownList(data);
-        })
-    }
+        function sendRequest(query) {
+            fetch("/search_authors?query=" + query)
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                    updateDropdownList(data);
+                })
+        }
 
-    function sendRequest2(query) {
-      fetch("/search_authors?query=" + query)
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          updateDropdownList2(data);
-        })
-    }
+        function sendRequest2(query) {
+            fetch("/search_authors?query=" + query)
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                    updateDropdownList2(data);
+                })
+        }
 
-    function updateDropdownList(authors) {
-      var dropdown = document.getElementById("author-dropdown");
-      dropdown.innerHTML = "";
-      for (var i = 0; i < Math.min(authors.length, 5); i++) {
-        var option = document.createElement("option");
-        option.value = authors[i].name;
-        option.text = authors[i].name;
-        dropdown.appendChild(option);
-      }
-    }
+        function updateDropdownList(authors) {
+            var dropdown = document.getElementById("author-dropdown");
+            dropdown.innerHTML = "";
+            var desc = document.createElement("option");
+            desc.value = ""
+            desc.text = "-choose an author-"
+            dropdown.appendChild(desc);
+            for (var i = 0; i < Math.min(authors.length, 5); i++) {
+                var option = document.createElement("option");
+                option.value = authors[i].name;
+                option.text = authors[i].name;
+                dropdown.appendChild(option);
+            }
+        }
 
-    function updateDropdownList2(author) {
-      var dropdown = document.getElementById("author-dropdown2");
-      dropdown.innerHTML = "";
-      for (var i = 0; i < Math.min(author.length, 5); i++) {
-        var option = document.createElement("option");
-        option.value = author[i].name;
-        option.text = author[i].name;
-        dropdown.appendChild(option);
-      }
-    }
+        function updateDropdownList2(author) {
+            var dropdown = document.getElementById("author-dropdown2");
+            dropdown.innerHTML = "";
+            var desc = document.createElement("option");
+            desc.value = ""
+            desc.text = "-choose an author-"
+            dropdown.appendChild(desc);
+            for (var i = 0; i < Math.min(author.length, 5); i++) {
+                var option = document.createElement("option");
+                option.value = author[i].name;
+                option.text = author[i].name;
+                dropdown.appendChild(option);
+            }
+        }
 
-    document.getElementById("filter-text-val").addEventListener("keyup", function (event) {
-      if (event.keyCode == 13) {
-        var query = document.getElementById("filter-text-val").value;
-        sendRequest(query);
-        showContent();
+        document.getElementById("filter-text-val").addEventListener("keyup", function (event) {
+            if (event.keyCode == 13) {
+                var query = document.getElementById("filter-text-val").value;
+                sendRequest(query);
+                showContent();
 
-      }
-    });
+            }
+        });
 
-    document.getElementById("filter-text-val2").addEventListener("keyup", function (event) {
-      if (event.keyCode == 13) {
-        var query = document.getElementById("filter-text-val2").value;
-        sendRequest2(query);
-        showContent2();
+        document.getElementById("filter-text-val2").addEventListener("keyup", function (event) {
+            if (event.keyCode == 13) {
+                var query = document.getElementById("filter-text-val2").value;
+                sendRequest2(query);
+                showContent2();
 
-      }
-    });
+            }
+        });
 
-    document.getElementById("author-dropdown").addEventListener("change", function (event) {
-      var selectedAuthor = document.getElementById("author-dropdown").value;
-      document.getElementById("filter-text-val").value = selectedAuthor;
-      sendRequest(selectedAuthor);
-    });
+        document.getElementById("author-dropdown").addEventListener("change", function (event) {
+            var selectedAuthor = document.getElementById("author-dropdown").value;
+            document.getElementById("filter-text-val").value = selectedAuthor;
+            sendRequest(selectedAuthor);
+        });
 
-    document.getElementById("author-dropdown2").addEventListener("change", function (event) {
-      var selectedAuthor = document.getElementById("author-dropdown2").value;
-      document.getElementById("filter-text-val2").value = selectedAuthor;
-      sendRequest2(selectedAuthor);
-    });
+        document.getElementById("author-dropdown2").addEventListener("change", function (event) {
+            var selectedAuthor = document.getElementById("author-dropdown2").value;
+            document.getElementById("filter-text-val2").value = selectedAuthor;
+            sendRequest2(selectedAuthor);
+        });
 
 
-    function selectAuthor() {
-      var selectedAuthor = document.getElementById("author-dropdown").value;
-      document.getElementById("filter-text-val").value = selectedAuthor;
-      sendRequest(selectedAuthor); // Start searching for similar authors
-    }
+        function selectAuthor() {
+            var selectedAuthor = document.getElementById("author-dropdown").value;
+            document.getElementById("filter-text-val").value = selectedAuthor;
+            sendRequest(selectedAuthor); // Start searching for similar authors
+        }
 
-    function selectAuthor2() {
-      var selectedAuthor2 = document.getElementById("author-dropdown2").value;
-      document.getElementById("filter-text-val2").value = selectedAuthor;
-      sendRequest2(selectedAuthor2);
-    }
+        function selectAuthor2() {
+            var selectedAuthor2 = document.getElementById("author-dropdown2").value;
+            document.getElementById("filter-text-val2").value = selectedAuthor;
+            sendRequest2(selectedAuthor2);
+        }
 
-    // function sendRequest2(query1, query2) {
-    //     fetch("/search_authors?query1=" + query1 + "&query2=" + query2) // Pass both query1 and query2 as parameters
-    //         .then((response) => response.json())
-    //         .then((data) => {
-    //             console.log(data);
-    //             updateDropdownList2(data);
-    //         })
-    // }
+        // function sendRequest2(query1, query2) {
+        //     fetch("/search_authors?query1=" + query1 + "&query2=" + query2) // Pass both query1 and query2 as parameters
+        //         .then((response) => response.json())
+        //         .then((data) => {
+        //             console.log(data);
+        //             updateDropdownList2(data);
+        //         })
+        // }
 
 
 
-  </script>
+    </script>
 </body>
