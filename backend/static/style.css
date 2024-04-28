@@ -70,7 +70,7 @@
     /* border-color: #521A16; */
     display: flex;
     align-items: center;
-    margin-top: 10px;
+    margin-top: 20px;
     padding: 12px;
     width: 650px;
     height: 100px;
@@ -83,6 +83,34 @@
     font-size: 16px;
     font-weight: bold;
 
+}
+
+.styled-text {
+    font-family: 'Lora', sans-serif;
+    color: #2E2D04;
+    text-align: left;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.search-button {
+    font-family: 'Lora', sans-serif;
+    color: #2E2D04;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #d5c7ac;
+    border: 1.5px solid #521A16;
+    margin-top: 10px;
+    border-radius: 10px;
+    text-align: center;
+    transition: background-color 0.2s;
+    width: 70px;
+    height: 30px;
+}
+
+.active,
+.search-button:hover {
+    background-color: #baab8d;
 }
 
 .input-box {

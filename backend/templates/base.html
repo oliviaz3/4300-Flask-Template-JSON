@@ -31,7 +31,7 @@
 
             <select id="author-dropdown2" class="author-select2" onchange="selectAuthor2()"></select>
 
-            <button onclick="showContent()">Search</button>
+            <button id="search-button" class="search-button" onclick="showContent()">Search</button>
 
         </div>
 
@@ -39,11 +39,10 @@
 
         <div id="instruction-box" class="instruction-box">
             <p class="instruction">
-                Type in the full name of an author and select from the dropdown menu if needed.
+                Discover similar authors based on the ones that you like! <br><br>
+                Type in the full name of an author in the first search box, and select from the dropdown menu if needed.
                 <br>
-                Then press "Enter"
-                <br><br>
-                10 similar authors will be displayed!
+                (Optional) Input a different author in the second search box
             </p>
         </div>
 
@@ -57,16 +56,29 @@
 
         function answerBoxTemplate(data) {
             // (score, author name, author genres, book title, book genre)
-            query_author = data["self"]
+            query_author_1 = data["author_1"]
             content = `<div class='rec-box'>
+                    <p class = styled-text> Query Authors: </p>
                     <p class='episode-desc'>
-                    ${query_author[1]}<br>
-                    Author Genres: ${query_author[2]}<br>
-                    Highest Rated Book: ${query_author[3]} (Genre: ${query_author[4]})
+                    ${query_author_1[1]}<br>
+                    Author Genres: ${query_author_1[2]}<br>
+                    Highest Rated Book: ${query_author_1[3]} (Genre: ${query_author_1[4]})
                     </p>`
+            if ("author_2" in data) {
+                query_author_2 = data["author_2"]
+                content += `
+                    <p class='episode-desc'>
+                    ${query_author_2[1]}<br>
+                    Author Genres: ${query_author_2[2]}<br>
+                    Highest Rated Book: ${query_author_2[3]} (Genre: ${query_author_2[4]})
+                    </p>`
+                delete data["author_2"]
+            }
 
             // delete query from data
-            delete data["self"]
+            delete data["author_1"]
+
+            content += `<p class = styled-text> Recommended Authors: </p>`
             Object.entries(data).forEach(author => {
                 author = author[1]
                 content += `
@@ -165,7 +177,7 @@
                     showCollapsible();
                     hideLoader()
                 })
-            document.getElementById("container").style.height = "300%"
+            document.getElementById("container").style.height = "375%"
         }
 
         function filterText() {

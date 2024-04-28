@@ -272,7 +272,6 @@ def json_search(query1, query2):
 
     if len(cossim_score) == 0 or len(svd_score) == 0:
         matches_filtered[1] = "none"
-
     else:
         # (name, score)
         combined_scores = normalize_sim(
@@ -281,13 +280,21 @@ def json_search(query1, query2):
         if len(combined_scores) == 0:
             return json.dumps({})
 
-        # filter out top 10 authors, excluding self
-        top = combined_scores[0:10]
+        #filter out top 10 authors, excluding query authors
+        unfiltered = combined_scores[0:12]
+        top = []
+        for tup in unfiltered:
+            if tup[0] == query1.lower():
+                continue 
+            if query2 and tup[0] == query2.lower():
+                continue
+            top.append(tup)
+        top = top[:10]
 
-        # add in self
+        # add in author 1
         query_author = query1.lower()
         if data[query_author.lower()]["book_title"] == []:
-            matches_filtered["self"] = (
+            matches_filtered["author_1"] = (
                 100,
                 query_author,
                 get_author_genres(query_author.lower()),
@@ -298,7 +305,7 @@ def json_search(query1, query2):
         else:
             book = best_book(query_author)
             # (score, name, genres, book title, book genre, similarity rating)
-            matches_filtered["self"] = (
+            matches_filtered["author_1"] = (
                 100,
                 query_author,
                 get_author_genres(query_author),
@@ -306,11 +313,11 @@ def json_search(query1, query2):
                 book[2],
                 100
             )
-        # add in self
+        # add in author 2
         if query2:
             query_author = query2.lower()
             if data[query_author.lower()]["book_title"] == []:
-                matches_filtered["self"] = (
+                matches_filtered["author_2"] = (
                     100,
                     query_author,
                     get_author_genres(query_author.lower()),
@@ -321,7 +328,7 @@ def json_search(query1, query2):
             else:
                 book = best_book(query_author)
                 # (score, name, genres, book title, book genre, similarity rating)
-                matches_filtered["self"] = (
+                matches_filtered["author_2"] = (
                     100,
                     query_author,
                     get_author_genres(query_author),
