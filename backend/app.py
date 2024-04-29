@@ -278,81 +278,60 @@ def combine_reviews(authors_data):
 
 
 def json_search(query1, query2):
+    authors = data.keys()
+    lower_query1 = query1.lower()
+    lower_query2 = query2.lower()
+    
     matches_filtered = {}
 
-    if query2:
-        cossim_score = get_cossim_authors(data, query1.lower(), query2.lower())
-    else:
-        cossim_score = get_cossim_authors(data, query1.lower(), None)
-    
+    if (lower_query1 in authors and not lower_query2) or (lower_query1 in authors and lower_query2 in authors):
 
-    svd_score = normalize_sim(get_svd_authors(
-        data, query1))
-
-    if len(cossim_score) == 0 or len(svd_score) == 0:
-        matches_filtered[1] = "none"
-    else:
-        # (name, score)
-        combined_scores = normalize_sim(
-            combine_scores(cossim_score, svd_score))
-        # if input author has no reviews
-        if len(combined_scores) == 0:
-            return json.dumps({})
-
-        #filter out top 10 authors, excluding query authors
-        unfiltered = combined_scores[0:12]
-        top = []
-        for tup in unfiltered:
-            if tup[0] == query1.lower():
-                continue 
-            if query2 and tup[0] == query2.lower():
-                continue
-            top.append(tup)
-        top = top[:10]
-
-        # add in author 1
-        query_author = query1.lower()
-        if data[query_author.lower()]["book_title"] == []:
-            matches_filtered["author_1"] = (
-                100,
-                query_author.title(),
-                get_author_genres(query_author.lower()),
-                "unavailable",
-                "unavailable",
-                bins(100),
-                get_website(query_author)
-            )
+        if lower_query2:
+            cossim_score = get_cossim_authors(data, lower_query1, lower_query2)
         else:
-            book = best_book(query_author)
-            # (score, name, genres, book title, book genre, similarity rating, author website, book website)
-            matches_filtered["author_1"] = (
-                100,
-                query_author.title(),
-                get_author_genres(query_author),
-                book[0],
-                book[2],
-                100,
-                get_website(query_author),
-                get_book_website(book[0], book[3])
-            )
-        # add in author 2
-        if query2:
-            query_author = query2.lower()
+            cossim_score = get_cossim_authors(data, lower_query1, None)
+        
+
+        svd_score = normalize_sim(get_svd_authors(
+            data, query1))
+
+        if len(cossim_score) == 0 or len(svd_score) == 0:
+            matches_filtered[1] = "none"
+        else:
+            # (name, score)
+            combined_scores = normalize_sim(
+                combine_scores(cossim_score, svd_score))
+            # if input author has no reviews
+            if len(combined_scores) == 0:
+                return json.dumps({})
+
+            #filter out top 10 authors, excluding query authors
+            unfiltered = combined_scores[0:12]
+            top = []
+            for tup in unfiltered:
+                if tup[0] == lower_query1:
+                    continue 
+                if query2 and tup[0] == lower_query2:
+                    continue
+                top.append(tup)
+            top = top[:10]
+
+            # add in author 1
+            query_author = lower_query1
             if data[query_author.lower()]["book_title"] == []:
-                matches_filtered["author_2"] = (
+                matches_filtered["author_1"] = (
                     100,
                     query_author.title(),
                     get_author_genres(query_author.lower()),
                     "unavailable",
                     "unavailable",
                     bins(100),
-                    get_website(query_author),
-                    ""
+                    get_website(query_author)
                 )
             else:
                 book = best_book(query_author)
-                # (score, name, genres, book title, book genre, similarity rating, author website)
-                matches_filtered["author_2"] = (
+                # (score, name, genres, book title, book genre, similarity rating, author website, book website)
+                matches_filtered["author_1"] = (
                     100,
                     query_author.title(),
                     get_author_genres(query_author),
@@ -361,7 +340,35 @@ def json_search(query1, query2):
                     100,
                     get_website(query_author),
                     get_book_website(book[0], book[3])
+
                 )
+            # add in author 2
+            if query2:
+                query_author = lower_query2
+                if data[query_author.lower()]["book_title"] == []:
+                    matches_filtered["author_2"] = (
+                        100,
+                        query_author.title(),
+                        get_author_genres(query_author.lower()),
+                        "unavailable",
+                        "unavailable",
+                        bins(100),
+                        get_website(query_author),
+                        ""
+                    )
+                else:
+                    book = best_book(query_author)
+                    # (score, name, genres, book title, book genre, similarity rating, author website)
+                    matches_filtered["author_2"] = (
+                        100,
+                        query_author.title(),
+                        get_author_genres(query_author),
+                        book[0],
+                        book[2],
+                        100,
+                        get_website(query_author),
+                        get_book_website(book[0], book[3])
+                    )
 
         for idx, tup in enumerate(top):
             if data[tup[0]]["book_title"] == []:
@@ -393,8 +400,8 @@ def json_search(query1, query2):
                 )
 
     matches_filtered_json = json.dumps(matches_filtered)
-
     return matches_filtered_json
+
 
 
 @app.route("/")

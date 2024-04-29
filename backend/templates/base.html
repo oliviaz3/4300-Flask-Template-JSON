@@ -21,15 +21,13 @@
             <div class="input-box" onclick="sendFocus()">
                 <img src="{{ url_for('static', filename='images/mag.png') }}" />
                 <input placeholder="Search for an Author " id="filter-text-val" onkeyup="filterText()" list = "author-dropdown">
-                <datalist id="author-dropdown" class="author-select" onchange="selectAuthor()">
-                </datalist>
+                <datalist id="author-dropdown" class="author-select" onchange="selectAuthor()"></datalist>
             </div>
 
             <div class="input-box2" onclick="sendFocus2()">
                 <img src="{{ url_for('static', filename='images/mag.png') }}" />
                 <input placeholder="Search for another Author" id="filter-text-val2" onkeyup="filterText2()" list = "author-dropdown2">
-                <datalist id="author-dropdown2" class="author-select2" onchange="selectAuthor2()">
-                </datalist>
+                <datalist id="author-dropdown2" class="author-select2" onchange="selectAuthor2()"></datalist>
             </div>
 
             <button id="search-button" class="search-button" onclick="showContent()">Click to search!</button>
