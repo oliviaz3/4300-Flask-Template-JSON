@@ -84,6 +84,9 @@ def get_website(author):
     auth_id = data[author]["author_id"]
     return url + str(auth_id) + "." + author
 
+def get_author_pic(author):
+    return data[author]["profile_pic"]
+
 # def combine_author_reviews(data, author1, author2):
 #     """
 #     Combine the reviews of two authors into a single set of documents.

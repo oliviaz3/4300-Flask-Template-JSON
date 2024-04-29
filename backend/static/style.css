@@ -189,6 +189,13 @@ input {
     font-family: 'Kanit', sans-serif;
 }
 
+.prof-pic {
+    display: block;
+    margin: 0 auto;
+    width: 50%;
+    clip-path: circle(50%);
+}
+
 .author-desc {
     font-family: 'Montserrat', sans-serif;
     font-family: 'Lora', sans-serif;
