@@ -73,6 +73,10 @@ def get_author_index(data, query):
         auth_ind = authors.index(query)
     return auth_ind
 
+def get_website(author):
+    url = "https://www.goodreads.com/author/show/"
+    id = data[author]["author_id"]
+    return url + id + "." + author
 
 # def combine_author_reviews(data, author1, author2):
 #     """
@@ -300,18 +304,20 @@ def json_search(query1, query2):
                 get_author_genres(query_author.lower()),
                 "unavailable",
                 "unavailable",
-                bins(100)
+                bins(100),
+                get_website(query_author)
             )
         else:
             book = best_book(query_author)
-            # (score, name, genres, book title, book genre, similarity rating)
+            # (score, name, genres, book title, book genre, similarity rating, author website)
             matches_filtered["author_1"] = (
                 100,
                 query_author,
                 get_author_genres(query_author),
                 book[0],
                 book[2],
-                100
+                100,
+                get_website(query_author)
             )
         # add in author 2
         if query2:
@@ -323,40 +329,44 @@ def json_search(query1, query2):
                     get_author_genres(query_author.lower()),
                     "unavailable",
                     "unavailable",
-                    bins(100)
+                    bins(100),
+                    get_website(query_author)
                 )
             else:
                 book = best_book(query_author)
-                # (score, name, genres, book title, book genre, similarity rating)
+                # (score, name, genres, book title, book genre, similarity rating, author website)
                 matches_filtered["author_2"] = (
                     100,
                     query_author,
                     get_author_genres(query_author),
                     book[0],
                     book[2],
-                    100
+                    100,
+                    get_website(query_author)
                 )
 
         for idx, tup in enumerate(top):
             if data[tup[0]]["book_title"] == []:
-                # (score, name, genres, book title, book genre, similarity rating)
+                # (score, name, genres, book title, book genre, similarity rating, author website)
                 matches_filtered[idx] = (
                     round(100*tup[1], 1), tup[0],
                     get_author_genres(tup[0]),
                     "unavailable",
                     "unavailable",
-                    bins(round(tup[1], 4))
+                    bins(round(tup[1], 4)),
+                    get_website(tup[0])
                 )
             else:
                 book = best_book(tup[0])
-                # (score, name, genres, book title, book genre, similarity rating)
+                # (score, name, genres, book title, book genre, similarity rating, author website)
                 matches_filtered[idx] = (
                     round(100*tup[1], 1),
                     tup[0],
                     get_author_genres(tup[0]),
                     book[0],
                     book[2],
-                    bins(round(tup[1], 4))
+                    bins(round(tup[1], 4)),
+                    get_website(tup[0])
                 )
 
     matches_filtered_json = json.dumps(matches_filtered)
