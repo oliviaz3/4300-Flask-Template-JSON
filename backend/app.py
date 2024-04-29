@@ -43,13 +43,15 @@ def best_book(author):
     titles = []
     ratings = []
     genres = []
+    book_ids = []
     for book in data[author]["book_title"]:
         title = list(book.keys())[0]
         titles.append(title)
         ratings.append(book[title]["rating"])
         genres.append(book[title]["genre"])
+        book_ids.append(book[title]["book_id"])
     best_ind = np.argmax(ratings)
-    return titles[best_ind], ratings[best_ind], genres[best_ind]
+    return titles[best_ind], ratings[best_ind], genres[best_ind], book_ids[best_ind]
 
 
 def get_author_genres(author):
@@ -75,8 +77,8 @@ def get_author_index(data, query):
 
 def get_website(author):
     url = "https://www.goodreads.com/author/show/"
-    id = data[author]["author_id"]
-    return url + id + "." + author
+    auth_id = data[author]["author_id"]
+    return url + str(auth_id) + "." + author
 
 # def combine_author_reviews(data, author1, author2):
 #     """
