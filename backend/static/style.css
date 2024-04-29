@@ -104,7 +104,7 @@
     border-radius: 10px;
     text-align: center;
     transition: background-color 0.2s;
-    width: 70px;
+    width: 130px;
     height: 30px;
 }
 
@@ -293,25 +293,9 @@ button i.fa {
     cursor: pointer;
 }
 
-/* .rec-box {
-    border-radius: 10px;
-    /* background-color: ; 
-}
- */
-
-/* Referenced code from https://www.w3schools.com/howto/howto_css_loader.asp */
-/* .loader {
-    /* margin: auto; 
-    border: 8px solid #817B65;
-    border: 8px solid #d5c7ac;
-    border-top: 8px solid #611E1A;
+.info-hover-button {
+    border-color: #2E2D04;
     border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    animation: spin 1.7s linear infinite;
-  }
-
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }  */
+    width: 20px;
+    height: 20px;
+}
