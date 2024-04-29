@@ -77,7 +77,7 @@ def get_author_index(data, query):
 
 def get_book_website(title, book_id):
     url = "https://www.goodreads.com/book/show/"
-    return url + str(book_id) + title
+    return url + str(book_id) + "." + title
 
 def get_website(author):
     url = "https://www.goodreads.com/author/show/"
@@ -315,7 +315,7 @@ def json_search(query1, query2):
         if data[query_author.lower()]["book_title"] == []:
             matches_filtered["author_1"] = (
                 100,
-                query_author,
+                query_author.title(),
                 get_author_genres(query_author.lower()),
                 "unavailable",
                 "unavailable",
@@ -327,7 +327,7 @@ def json_search(query1, query2):
             # (score, name, genres, book title, book genre, similarity rating, author website, book website)
             matches_filtered["author_1"] = (
                 100,
-                query_author,
+                query_author.title(),
                 get_author_genres(query_author),
                 book[0],
                 book[2],
@@ -341,7 +341,7 @@ def json_search(query1, query2):
             if data[query_author.lower()]["book_title"] == []:
                 matches_filtered["author_2"] = (
                     100,
-                    query_author,
+                    query_author.title(),
                     get_author_genres(query_author.lower()),
                     "unavailable",
                     "unavailable",
@@ -354,7 +354,7 @@ def json_search(query1, query2):
                 # (score, name, genres, book title, book genre, similarity rating, author website)
                 matches_filtered["author_2"] = (
                     100,
-                    query_author,
+                    query_author.title(),
                     get_author_genres(query_author),
                     book[0],
                     book[2],
@@ -367,7 +367,8 @@ def json_search(query1, query2):
             if data[tup[0]]["book_title"] == []:
                 # (score, name, genres, book title, book genre, similarity rating, author website, genres in common with query author)
                 matches_filtered[idx] = (
-                    round(100*tup[1], 1), tup[0],
+                    round(100*tup[1], 1), 
+                    tup[0].title(),
                     get_author_genres(tup[0]),
                     "unavailable",
                     "unavailable",
@@ -381,7 +382,7 @@ def json_search(query1, query2):
                 # (score, name, genres, book title, book genre, similarity rating, author website, genres in common with query author)
                 matches_filtered[idx] = (
                     round(100*tup[1], 1),
-                    tup[0],
+                    tup[0].title(),
                     get_author_genres(tup[0]),
                     book[0],
                     book[2],
