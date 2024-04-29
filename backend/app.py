@@ -220,7 +220,7 @@ def bins(score):
 
     return score_label
 
-def get_common_genre(query_author, recommended_author, rec_auth_books):
+def get_common_genre(query_author, recommended_author, rec_auth_book_genres, query_book_genres):
     # query_author = query_author.split(',')
     # recommended_author = recommended_author.split(',')
     # rec_auth_books = rec_auth_books.split(',')
@@ -318,6 +318,8 @@ def json_search(query1, query2):
 
             # add in author 1
             query_author = lower_query1
+            # book = best_book(query_author)
+            genres = []
             if data[query_author.lower()]["book_title"] == []:
                 matches_filtered["author_1"] = (
                     100,
@@ -330,6 +332,8 @@ def json_search(query1, query2):
                 )
             else:
                 book = best_book(query_author)
+                genres.append(book[2])
+
                 # (score, name, genres, book title, book genre, similarity rating, author website, book website)
                 matches_filtered["author_1"] = (
                     100,
@@ -343,6 +347,7 @@ def json_search(query1, query2):
 
                 )
             # add in author 2
+            
             if query2:
                 query_author = lower_query2
                 if data[query_author.lower()]["book_title"] == []:
@@ -358,6 +363,7 @@ def json_search(query1, query2):
                     )
                 else:
                     book = best_book(query_author)
+                    genres.append(book[2])
                     # (score, name, genres, book title, book genre, similarity rating, author website)
                     matches_filtered["author_2"] = (
                         100,
@@ -382,7 +388,7 @@ def json_search(query1, query2):
                     bins(round(tup[1], 4)),
                     get_website(tup[0]),
                     "",
-                    get_common_genre(get_author_genres(query_author), get_author_genres(tup[0]), book[2])
+                    get_common_genre(get_author_genres(query_author), get_author_genres(tup[0]), book[2], genres)
                 )
             else:
                 book = best_book(tup[0])
@@ -396,7 +402,7 @@ def json_search(query1, query2):
                     bins(round(tup[1], 4)),
                     get_website(tup[0]),
                     get_book_website(book[0], book[3]),
-                    get_common_genre(get_author_genres(query_author), get_author_genres(tup[0]), book[2])
+                    get_common_genre(get_author_genres(query_author), get_author_genres(tup[0]), book[2], genres)
                 )
 
     matches_filtered_json = json.dumps(matches_filtered)
