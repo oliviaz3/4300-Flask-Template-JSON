@@ -49,7 +49,7 @@ def best_book(author):
         titles.append(title)
         ratings.append(book[title]["rating"])
         genres.append(book[title]["genre"])
-        book_ids.append(book[title]["book_id"])
+        book_ids.append(book[title]["id"])
     best_ind = np.argmax(ratings)
     return titles[best_ind], ratings[best_ind], genres[best_ind], book_ids[best_ind]
 
