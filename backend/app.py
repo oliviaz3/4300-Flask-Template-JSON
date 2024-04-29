@@ -306,7 +306,7 @@ def json_search(query1, query2):
         if data[query_author.lower()]["book_title"] == []:
             matches_filtered["author_1"] = (
                 100,
-                query_author.upper(),
+                query_author.title(),
                 get_author_genres(query_author.lower()),
                 "unavailable",
                 "unavailable",
@@ -318,7 +318,7 @@ def json_search(query1, query2):
             # (score, name, genres, book title, book genre, similarity rating, author website, book website)
             matches_filtered["author_1"] = (
                 100,
-                query_author.upper(),
+                query_author.title(),
                 get_author_genres(query_author),
                 book[0],
                 book[2],
@@ -333,7 +333,7 @@ def json_search(query1, query2):
             if data[query_author.lower()]["book_title"] == []:
                 matches_filtered["author_2"] = (
                     100,
-                    query_author.upper(),
+                    query_author.title(),
                     get_author_genres(query_author.lower()),
                     "unavailable",
                     "unavailable",
@@ -346,7 +346,7 @@ def json_search(query1, query2):
                 # (score, name, genres, book title, book genre, similarity rating, author website)
                 matches_filtered["author_2"] = (
                     100,
-                    query_author.upper(),
+                    query_author.title(),
                     get_author_genres(query_author),
                     book[0],
                     book[2],
@@ -360,7 +360,7 @@ def json_search(query1, query2):
                 # (score, name, genres, book title, book genre, similarity rating, author website)
                 matches_filtered[idx] = (
                     round(100*tup[1], 1), 
-                    tup[0].upper(),
+                    tup[0].title(),
                     get_author_genres(tup[0]),
                     "unavailable",
                     "unavailable",
@@ -373,7 +373,7 @@ def json_search(query1, query2):
                 # (score, name, genres, book title, book genre, similarity rating, author website)
                 matches_filtered[idx] = (
                     round(100*tup[1], 1),
-                    tup[0].upper(),
+                    tup[0].title(),
                     get_author_genres(tup[0]),
                     book[0],
                     book[2],
