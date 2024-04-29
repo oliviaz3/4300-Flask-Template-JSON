@@ -226,20 +226,28 @@ def bins(score):
 def get_common_genre(query_author, recommended_author, rec_auth_book_genres, query_book_genres):
     query_author = query_author.split(',')
     recommended_author = recommended_author.split(',')
-    rec_auth_book_genres = rec_auth_book_genres.split(',')
-    # query_book_genres = query_book_genres.split(',')
+    if type(rec_auth_book_genres) == list:
+      rec_auth_book_genres.extend(recommended_author)
+    else:
+      rec_auth_book_genres = rec_auth_book_genres.split(',')
+
     if type(query_book_genres) == list:
       query_book_genres.extend(query_author)
     else:
       query_book_genres = query_book_genres.split(',')
 
-
     recommended_author.extend(rec_auth_book_genres)
     query_author.extend(query_book_genres)
-    # common_genres = [genre for genre in rec_genres if genre in query_genres]
-    common_genres = [genre for genre in recommended_author if genre in query_author]
+    common_genres = [genre for genre in recommended_author if genre in query_author if genre!='']
 
-    return common_genres
+    result = None
+    if len(common_genres) == 0 :
+        result = 'reviews'
+        return result
+    else:
+        result = ', '.join(common_genres)
+        result = result+' genres'
+        return result
 
 
 def edit_distance(str1, str2, m, n):

@@ -88,7 +88,7 @@
                 
                 <div class="content">
                     <p class='author-desc'>
-                    Similarity: ${author[5]} <span class='info-hover-tooltip'><img src="{{ url_for('static', filename='images/question_mark.png') }}"/><span class='tooltiptext'>Similarity is ${author[5]} because the authors have genres ${author[8]} in common.</span></span>
+                    Similarity: ${author[5]} <span class='info-hover-tooltip'><img src="{{ url_for('static', filename='images/question_mark.png') }}"/><span class='tooltiptext'>Similarity is ${author[5]} because the authors have ${author[8]} in common.</span></span>
 <br>
                     Author Genres: ${author[2]}<br>
                     Highest Rated Book: <a href = "${author[7]}" target="_blank" rel="noopener noreferrer">${author[3]}</a> (Genre: ${author[4]})
