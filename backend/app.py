@@ -77,7 +77,7 @@ def get_author_index(data, query):
 
 def get_book_website(title, book_id):
     url = "https://www.goodreads.com/book/show/"
-    return url + str(book_id) + title
+    return url + str(book_id) + "." + title
 
 def get_website(author):
     url = "https://www.goodreads.com/author/show/"
