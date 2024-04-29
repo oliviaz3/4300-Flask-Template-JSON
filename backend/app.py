@@ -220,6 +220,15 @@ def bins(score):
 
     return score_label
 
+def get_common_genre(query_author, recommended_author, rec_auth_books):
+    # query_author = query_author.split(',')
+    # recommended_author = recommended_author.split(',')
+    # rec_auth_books = rec_auth_books.split(',')
+    # rec_genres = recommended_author.extend(rec_auth_books)
+    # common_genres = [genre for genre in rec_genres if genre in query_author]
+    common_genres = [genre for genre in recommended_author if genre in query_author]
+    return common_genres
+
 
 def edit_distance(str1, str2, m, n):
     dp = [[0 for x in range(n + 1)] for x in range(m + 1)]
@@ -361,32 +370,34 @@ def json_search(query1, query2):
                         get_book_website(book[0], book[3])
                     )
 
-            for idx, tup in enumerate(top):
-                if data[tup[0]]["book_title"] == []:
-                    # (score, name, genres, book title, book genre, similarity rating, author website)
-                    matches_filtered[idx] = (
-                        round(100*tup[1], 1), 
-                        tup[0].title(),
-                        get_author_genres(tup[0]),
-                        "unavailable",
-                        "unavailable",
-                        bins(round(tup[1], 4)),
-                        get_website(tup[0]),
-                        ""
-                    )
-                else:
-                    book = best_book(tup[0])
-                    # (score, name, genres, book title, book genre, similarity rating, author website)
-                    matches_filtered[idx] = (
-                        round(100*tup[1], 1),
-                        tup[0].title(),
-                        get_author_genres(tup[0]),
-                        book[0],
-                        book[2],
-                        bins(round(tup[1], 4)),
-                        get_website(tup[0]),
-                        get_book_website(book[0], book[3])
-                    )
+        for idx, tup in enumerate(top):
+            if data[tup[0]]["book_title"] == []:
+                # (score, name, genres, book title, book genre, similarity rating, author website, genres in common with query author)
+                matches_filtered[idx] = (
+                    round(100*tup[1], 1), 
+                    tup[0].title(),
+                    get_author_genres(tup[0]),
+                    "unavailable",
+                    "unavailable",
+                    bins(round(tup[1], 4)),
+                    get_website(tup[0]),
+                    "",
+                    get_common_genre(get_author_genres(query_author), get_author_genres(tup[0]), book[2])
+                )
+            else:
+                book = best_book(tup[0])
+                # (score, name, genres, book title, book genre, similarity rating, author website, genres in common with query author)
+                matches_filtered[idx] = (
+                    round(100*tup[1], 1),
+                    tup[0].title(),
+                    get_author_genres(tup[0]),
+                    book[0],
+                    book[2],
+                    bins(round(tup[1], 4)),
+                    get_website(tup[0]),
+                    get_book_website(book[0], book[3]),
+                    get_common_genre(get_author_genres(query_author), get_author_genres(tup[0]), book[2])
+                )
 
     matches_filtered_json = json.dumps(matches_filtered)
     return matches_filtered_json
