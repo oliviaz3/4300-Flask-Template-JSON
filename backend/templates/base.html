@@ -62,7 +62,7 @@
                     <p class='episode-desc'>
                     <a href = "${query_author_1[6]}">${query_author_1[1]}</a><br>
                     Author Genres: ${query_author_1[2]}<br>
-                    Highest Rated Book: ${query_author_1[3]} (Genre: ${query_author_1[4]})
+                    Highest Rated Book: <a href = "${query_author_1[7]}">${query_author_1[3]}</a>(Genre: ${query_author_1[4]})
                     </p>`
             if ("author_2" in data) {
                 query_author_2 = data["author_2"]
@@ -70,7 +70,7 @@
                     <p class='episode-desc'>
                     <a href = "${query_author_2[6]}">${query_author_2[1]}</a><br>
                     Author Genres: ${query_author_2[2]}<br>
-                    Highest Rated Book: ${query_author_2[3]} (Genre: ${query_author_2[4]})
+                    Highest Rated Book: <a href = "${query_author_2[7]}">${query_author_2[3]}</a> (Genre: ${query_author_2[4]})
                     </p>`
                 delete data["author_2"]
             }
@@ -91,7 +91,7 @@
                     <p class='episode-desc'>
                     Similarity: ${author[5]}<br>
                     Author Genres: ${author[2]}<br>
-                    Highest Rated Book: ${author[3]} (Genre: ${author[4]})
+                    Highest Rated Book: <a href = "${author[7]}">${author[3]}</a>(Genre: ${author[4]})
                     </p>
                 </div>`
             })
