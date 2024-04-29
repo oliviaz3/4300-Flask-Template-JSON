@@ -224,12 +224,21 @@ def bins(score):
     return score_label
 
 def get_common_genre(query_author, recommended_author, rec_auth_book_genres, query_book_genres):
-    # query_author = query_author.split(',')
-    # recommended_author = recommended_author.split(',')
-    # rec_auth_books = rec_auth_books.split(',')
-    # rec_genres = recommended_author.extend(rec_auth_books)
-    # common_genres = [genre for genre in rec_genres if genre in query_author]
+    query_author = query_author.split(',')
+    recommended_author = recommended_author.split(',')
+    rec_auth_book_genres = rec_auth_book_genres.split(',')
+    # query_book_genres = query_book_genres.split(',')
+    if type(query_book_genres) == list:
+      query_book_genres.extend(query_author)
+    else:
+      query_book_genres = query_book_genres.split(',')
+
+
+    recommended_author.extend(rec_auth_book_genres)
+    query_author.extend(query_book_genres)
+    # common_genres = [genre for genre in rec_genres if genre in query_genres]
     common_genres = [genre for genre in recommended_author if genre in query_author]
+
     return common_genres
 
 
@@ -366,7 +375,8 @@ def json_search(query1, query2):
                     )
                 else:
                     book = best_book(query_author)
-                    genres.append(book[2])
+                    # genres.append(book[2])
+                    genres.extend(book[2])
                     # (score, name, genres, book title, book genre, similarity rating, author website)
                     matches_filtered["author_2"] = (
                         100,
