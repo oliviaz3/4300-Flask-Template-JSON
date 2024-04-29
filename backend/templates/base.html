@@ -89,14 +89,15 @@
                 
                 <div class="content">
                     <p class='episode-desc'>
-                    Similarity: ${author[5]} <button class='info-hover-button'>?</button><br>
+                    Similarity: ${author[5]} <span class='info-hover-tooltip'><img src="{{ url_for('static', filename='images/question_mark.png') }}"/><span class='tooltiptext'>Similarity is ${author[5]} because the authors have genres ${author[8]} in common.</span></span>
+<br>
                     Author Genres: ${author[2]}<br>
                     Highest Rated Book: <a href = "${author[7]}">${author[3]}</a>(Genre: ${author[4]})
                     </p>
                 </div>`
             })
             content += `</div>`
-            return content
+            return content 
 
         }
 
